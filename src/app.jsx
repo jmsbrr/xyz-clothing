@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import PageDashboard from "./pageDashboard";
-import PageProduct from "./pageProduct";
+import PageProducts from "./pageProducts";
 import Sidebar from "./sidebar";
 
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
           </Route>
 
           <Route path="/products">
-            <PageProduct />
+            <PageProducts />
           </Route>
         </React.Fragment>
       </Router>
