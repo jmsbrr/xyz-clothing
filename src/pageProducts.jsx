@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import ProductListing from "./productListing";
 
 class PageProducts extends Component {
   render() {
     return (
       <div>
         <h1>Products</h1>
-        <p>Product listing will go here.</p>
+        <ProductListing products={this.props.products} />
       </div>
     );
   }
