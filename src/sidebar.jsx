@@ -5,8 +5,14 @@ class Sidebar extends Component {
   render() {
     return (
       <div className="sidebar">
-        <Link to="/">Dashboard</Link>
-        <Link to="/products">Products</Link>
+        <div className="primary-nav">
+          <Link to="/" className="primary-nav__link">
+            Dashboard
+          </Link>
+          <Link to="/products" className="primary-nav__link">
+            Products
+          </Link>
+        </div>
       </div>
     );
   }

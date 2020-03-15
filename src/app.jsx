@@ -5,6 +5,7 @@ import PageProducts from "./pageProducts";
 import PageProductDetail from "./pageProductDetail";
 import Sidebar from "./sidebar";
 import productsData from "./products.json";
+import "./app.scss";
 
 class App extends Component {
   constructor(props) {
@@ -19,24 +20,26 @@ class App extends Component {
         <React.Fragment>
           <Sidebar />
 
-          <Route path="/" exact>
-            <PageDashboard />
-          </Route>
+          <div className="main">
+            <Route path="/" exact>
+              <PageDashboard />
+            </Route>
 
-          <Route path="/products" exact>
-            <PageProducts products={this.state.products} />
-          </Route>
+            <Route path="/products" exact>
+              <PageProducts products={this.state.products} />
+            </Route>
 
-          <Route
-            path="/products/:id"
-            render={({ match }) => (
-              <PageProductDetail
-                product={this.state.products.find(
-                  prod => prod.id === parseInt(match.params.id)
-                )}
-              />
-            )}
-          ></Route>
+            <Route
+              path="/products/:id"
+              render={({ match }) => (
+                <PageProductDetail
+                  product={this.state.products.find(
+                    prod => prod.id === parseInt(match.params.id)
+                  )}
+                />
+              )}
+            ></Route>
+          </div>
         </React.Fragment>
       </Router>
     );
