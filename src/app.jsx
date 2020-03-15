@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import PageDashboard from "./pageDashboard";
 import PageProducts from "./pageProducts";
+import PageProductDetail from "./pageProductDetail";
 import Sidebar from "./sidebar";
 import productsData from "./products.json";
 
@@ -22,9 +23,20 @@ class App extends Component {
             <PageDashboard />
           </Route>
 
-          <Route path="/products">
+          <Route path="/products" exact>
             <PageProducts products={this.state.products} />
           </Route>
+
+          <Route
+            path="/products/:id"
+            render={({ match }) => (
+              <PageProductDetail
+                product={this.state.products.find(
+                  prod => prod.id === parseInt(match.params.id)
+                )}
+              />
+            )}
+          ></Route>
         </React.Fragment>
       </Router>
     );
