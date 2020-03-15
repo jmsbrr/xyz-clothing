@@ -1,0 +1,11 @@
+.primary-nav__link {
+  display: block;
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

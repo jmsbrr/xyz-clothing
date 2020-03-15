@@ -6,9 +6,9 @@ class ProductCard extends Component {
     const product = this.props.product;
     return (
       <Link to={`/products/${product.id}`} className="product-card">
-        <div>{product.name}</div>
-        <div>{product.description}</div>
-        <div>{product.price.amount}</div>
+        <h2 className="product-card__heading">{product.name}</h2>
+        <div className="product-card__copy">{product.description}</div>
+        <div className="product-card__price">{product.price.amount}</div>
       </Link>
     );
   }

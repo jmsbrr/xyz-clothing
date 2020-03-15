@@ -1,0 +1,18 @@
+.site-container {
+  min-height: 100vh;
+}
+
+.main {
+  padding: 80px;
+  margin-left: 320px;
+}
+
+.sidebar {
+  background-color: #314558;
+  height: 100vh;
+  left: 0;
+  padding: 40px;
+  position: fixed;
+  top: 0;
+  width: 320px;
+}

@@ -1,0 +1,23 @@
+.product-card {
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px 0 rgba(#000, 0.08);
+  padding: 16px;
+  margin-bottom: 40px;
+  text-decoration: none;
+}
+
+.product-card__heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.product-card__copy {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.product-card__price {
+  font-size: 20px;
+}

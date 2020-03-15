@@ -1,35 +1,7 @@
-html * {
-  box-sizing: border-box;
-  font-family: sans-serif;
-}
-
-.site-container {
-  min-height: 100vh;
-}
-
-.main {
-  padding: 80px;
-  margin-left: 320px;
-}
-
-.sidebar {
-  background-color: #314558;
-  height: 100vh;
-  left: 0;
-  padding: 40px;
-  position: fixed;
-  top: 0;
-  width: 320px;
-}
-
-.primary-nav__link {
-  display: block;
-  color: #fff;
-  font-size: 20px;
-  margin-bottom: 24px;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
+@import "normalize-scss";
+@include normalize();
+@import "./styles/html";
+@import "./styles/layout";
+@import "./styles/headings";
+@import "./styles/primary-nav";
+@import "./styles/product-card";
