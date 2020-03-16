@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PriceBadge from "./priceBadge";
+import { Link } from "react-router-dom";
 
 class PageProductDetail extends Component {
   render() {
@@ -15,6 +16,7 @@ class PageProductDetail extends Component {
           exchangeRates={this.props.exchangeRates}
         />
         <p>{product.description}</p>
+        <Link to={`/products/${product.id}/edit`}>Edit</Link>
       </div>
     );
   }

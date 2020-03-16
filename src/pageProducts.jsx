@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import ProductListing from "./productListing";
 
 class PageProducts extends Component {
+  componentDidMount() {
+    this.props.resetRedirect();
+  }
+
   render() {
     return (
       <div>
