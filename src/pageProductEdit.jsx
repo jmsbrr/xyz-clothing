@@ -46,7 +46,6 @@ class PageProductEdit extends Component {
 
     return (
       <div>
-        <Link to={`/products/${product.id}`}>Back</Link>
         <form
           onSubmit={event => {
             event.preventDefault();
@@ -110,6 +109,7 @@ class PageProductEdit extends Component {
             />
           </div>
           <input type="submit" value="submit" />
+          <Link to={`/products/${product.id}`}>Cancel</Link>
         </form>
       </div>
     );

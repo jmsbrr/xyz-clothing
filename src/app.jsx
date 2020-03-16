@@ -74,6 +74,7 @@ class App extends Component {
                 <PageProductDetail
                   appCurrency={this.state.appCurrency}
                   exchangeRates={this.state.exchangeRates}
+                  products={this.state.products}
                   product={this.state.products.find(
                     prod => prod.id === parseInt(match.params.id)
                   )}

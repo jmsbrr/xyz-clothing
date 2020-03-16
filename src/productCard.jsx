@@ -10,7 +10,7 @@ class ProductCard extends Component {
       <Link to={`/products/${product.id}`} className="product-card">
         <h2 className="product-card__heading">{product.name}</h2>
         <div className="product-card__copy">{product.description}</div>
-        <div className="product-card__id">{product.id}</div>
+        <div className="product-card__id">ID: {product.id}</div>
         <PriceBadge
           price={product.price}
           appCurrency={this.props.appCurrency}
