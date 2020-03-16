@@ -88,7 +88,7 @@ class PageProductEdit extends Component {
           <div>
             <select
               className="currency-selector__select"
-              defaultValue={this.state.product.base}
+              defaultValue={this.state.product.price.base}
               name="base"
               onChange={event => this.handleInputChange(event)}
             >
@@ -102,7 +102,7 @@ class PageProductEdit extends Component {
           <div>
             <input
               type="text"
-              defaultValue={this.state.product.amount}
+              defaultValue={this.state.product.price.amount}
               name="amount"
               onChange={event => {
                 this.handleInputChange(event);
