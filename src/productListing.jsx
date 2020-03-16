@@ -7,7 +7,12 @@ class ProductListing extends Component {
       <div>
         <div>
           {this.props.products.map(prod => (
-            <ProductCard product={prod} key={prod.id} />
+            <ProductCard
+              product={prod}
+              key={prod.id}
+              appCurrency={this.props.appCurrency}
+              exchangeRates={this.props.exchangeRates}
+            />
           ))}
         </div>
       </div>

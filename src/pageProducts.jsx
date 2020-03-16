@@ -6,7 +6,11 @@ class PageProducts extends Component {
     return (
       <div>
         <h1>Products</h1>
-        <ProductListing products={this.props.products} />
+        <ProductListing
+          products={this.props.products}
+          appCurrency={this.props.appCurrency}
+          exchangeRates={this.props.exchangeRates}
+        />
       </div>
     );
   }

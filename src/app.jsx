@@ -12,7 +12,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      appCurrency: "USD"
+      appCurrency: "AUD"
     };
     this.state.products = productsData;
     this.state.exchangeRates = exchangeRates;
@@ -39,13 +39,19 @@ class App extends Component {
             </Route>
 
             <Route path="/products" exact>
-              <PageProducts products={this.state.products} />
+              <PageProducts
+                appCurrency={this.state.appCurrency}
+                exchangeRates={this.state.exchangeRates}
+                products={this.state.products}
+              />
             </Route>
 
             <Route
               path="/products/:id"
               render={({ match }) => (
                 <PageProductDetail
+                  appCurrency={this.state.appCurrency}
+                  exchangeRates={this.state.exchangeRates}
                   product={this.state.products.find(
                     prod => prod.id === parseInt(match.params.id)
                   )}
