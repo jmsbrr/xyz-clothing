@@ -1,18 +1,17 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import PrimaryNav from "./primaryNav";
+import CurrencySelector from "./currencySelector";
 
 class Sidebar extends Component {
   render() {
     return (
       <div className="sidebar">
-        <div className="primary-nav">
-          <Link to="/" className="primary-nav__link">
-            Dashboard
-          </Link>
-          <Link to="/products" className="primary-nav__link">
-            Products
-          </Link>
-        </div>
+        <PrimaryNav />
+        <CurrencySelector
+          exchangeRates={this.props.exchangeRates}
+          appCurrency={this.props.appCurrency}
+          handleCurrencyChange={value => this.props.handleCurrencyChange(value)}
+        />
       </div>
     );
   }

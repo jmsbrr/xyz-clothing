@@ -5,20 +5,33 @@ import PageProducts from "./pageProducts";
 import PageProductDetail from "./pageProductDetail";
 import Sidebar from "./sidebar";
 import productsData from "./products.json";
+import exchangeRates from "./exchange_rates.json";
 import "./app.scss";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      appCurrency: "USD"
+    };
     this.state.products = productsData;
+    this.state.exchangeRates = exchangeRates;
+    this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
+  }
+
+  handleCurrencyChange(userSetCurrency) {
+    this.setState({ appCurrency: userSetCurrency });
   }
 
   render() {
     return (
       <Router>
         <React.Fragment>
-          <Sidebar />
+          <Sidebar
+            exchangeRates={this.state.exchangeRates}
+            appCurrency={this.state.appCurrency}
+            handleCurrencyChange={value => this.handleCurrencyChange(value)}
+          />
 
           <div className="main">
             <Route path="/" exact>
