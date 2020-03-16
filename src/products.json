@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name": "Brown Shoes",
+    "name": "Brown Shirt",
     "description": "A brown shirt made from fine cotton.",
     "price": {
       "base": "USD",
