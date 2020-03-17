@@ -29,8 +29,16 @@ class App extends Component {
     this.setState({ appCurrency: userSetCurrency });
   }
 
-  handleProductUpdate(updatedProductData, originalProductId) {
+  handleProductUpdate(updatedProductData, originalProductId, relatedProducts) {
     const productStateCopy = this.state.products;
+    let updatedProduct = updatedProductData;
+    let relatedIds = [];
+    relatedProducts.forEach(prod => {
+      relatedIds.push(prod.id);
+    });
+
+    updatedProduct.relatedProducts = relatedIds;
+
     const indexToSplice = productStateCopy.findIndex(
       prod => prod.id === originalProductId
     );
@@ -86,11 +94,20 @@ class App extends Component {
               path="/products/:id/edit"
               render={({ match }) => (
                 <PageProductEdit
+                  products={this.state.products}
                   product={this.state.products.find(
                     prod => prod.id === parseInt(match.params.id)
                   )}
-                  handleProductUpdate={(updatedProductData, originalId) =>
-                    this.handleProductUpdate(updatedProductData, originalId)
+                  handleProductUpdate={(
+                    updatedProductData,
+                    originalId,
+                    relatedProducts
+                  ) =>
+                    this.handleProductUpdate(
+                      updatedProductData,
+                      originalId,
+                      relatedProducts
+                    )
                   }
                   exchangeRates={this.state.exchangeRates}
                   redirect={this.state.redirect}

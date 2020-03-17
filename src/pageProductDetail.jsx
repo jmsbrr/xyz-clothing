@@ -10,7 +10,7 @@ class PageProductDetail extends Component {
 
     if (product.relatedProducts.length > 0) {
       const products = this.props.products.filter(prod => {
-        return product.relatedProducts.indexOf(prod.id) != -1;
+        return product.relatedProducts.indexOf(prod.id) !== -1;
       });
 
       relatedProductsListing = (
@@ -24,6 +24,8 @@ class PageProductDetail extends Component {
           />
         </div>
       );
+
+      window.scrollTo(0, 0);
     }
 
     return (

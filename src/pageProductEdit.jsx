@@ -16,8 +16,21 @@ class PageProductEdit extends Component {
         relatedProducts: props.product.relatedProducts
       },
       hasChanged: false,
-      originalId: props.product.id
+      originalId: props.product.id,
+      relatedProducts: []
     };
+
+    this.state.relatedProducts = this.props.products.map(prod => ({
+      id: prod.id,
+      name: prod.name,
+      active: props.product.relatedProducts.includes(prod.id)
+    }));
+
+    const indexInProducts = this.state.relatedProducts.findIndex(
+      prod => prod.id === props.product.id
+    );
+
+    this.state.relatedProducts.splice(indexInProducts, 1);
   }
 
   handleInputChange(event) {
@@ -36,9 +49,31 @@ class PageProductEdit extends Component {
     this.setState({ ...stateCopy });
   }
 
+  handleCheckboxChange(event, arrIndex) {
+    let relatedProducts = this.state.relatedProducts;
+    relatedProducts[arrIndex].active = !relatedProducts[arrIndex].active;
+    this.setState({ ...relatedProducts });
+  }
+
   render() {
     const product = this.props.product;
     const exchangeRates = this.props.exchangeRates;
+    const relatedProductsList = this.state.relatedProducts.map(
+      (prod, index) => (
+        <div key={prod.id}>
+          <label htmlFor={`check-${prod.id}`}>
+            ID: {prod.id}&nbsp;&nbsp;|&nbsp;&nbsp;{prod.name}&nbsp;&nbsp;
+          </label>
+          <input
+            type="checkbox"
+            name={prod.id}
+            id={`check-${prod.id}`}
+            checked={this.state.relatedProducts[index].active}
+            onChange={event => this.handleCheckboxChange(event, index)}
+          />
+        </div>
+      )
+    );
 
     if (this.props.redirect) {
       return <Redirect to="/products/" />;
@@ -51,7 +86,8 @@ class PageProductEdit extends Component {
             event.preventDefault();
             this.props.handleProductUpdate(
               this.state.product,
-              this.state.originalId
+              this.state.originalId,
+              this.state.relatedProducts.filter(prod => prod.active === true)
             );
           }}
         >
@@ -108,8 +144,13 @@ class PageProductEdit extends Component {
               }}
             />
           </div>
-          <input type="submit" value="submit" />
-          <Link to={`/products/${product.id}`}>Cancel</Link>
+
+          <div>{relatedProductsList}</div>
+
+          <div>
+            <input type="submit" value="submit" />
+            <Link to={`/products/${product.id}`}>Cancel</Link>
+          </div>
         </form>
       </div>
     );
