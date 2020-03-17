@@ -1,0 +1,27 @@
+.action-bar {
+  align-items: center;
+  background-color: #2f3841;
+  height: 72px;
+  left: 320px;
+  display: flex;
+  font-size: 1rem;
+  justify-content: space-between;
+  padding: 18px 16px 18px 80px;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+.action-bar__view-all {
+  color: #fff;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+.action-bar__btn {
+  margin-left: 16px;
+}

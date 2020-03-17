@@ -3,12 +3,12 @@
 }
 
 .main {
-  padding: 80px;
+  padding: 72px 80px 80px;
   margin-left: 320px;
 }
 
 .sidebar {
-  background-color: #314558;
+  background-color: $color-primary;
   height: 100vh;
   left: 0;
   padding: 40px;

@@ -1,9 +1,12 @@
 @import "normalize-scss";
 @include normalize();
+@import "./styles/globals";
 @import "./styles/html";
 @import "./styles/layout";
 @import "./styles/headings";
+@import "./styles/btn";
 @import "./styles/primary-nav";
 @import "./styles/product-card";
 @import "./styles/currency-selector";
 @import "./styles/product-detail";
+@import "./styles/action-bar";

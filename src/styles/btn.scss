@@ -1,0 +1,42 @@
+.btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: $global-radius;
+  display: inline-block;
+  line-height: 1;
+  font-size: 1rem;
+  padding: 10px 24px 12px;
+  text-decoration: none;
+  text-align: center;
+  min-width: 104px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.btn--accent {
+  background: $color-accent;
+  color: $color-primary;
+
+  &:hover,
+  &:focus {
+    background-color: lighten($color-accent, 7%);
+  }
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: #fff;
+  color: #fff;
+
+  &:hover,
+  &:focus {
+    background-color: rgba($color-primary, 0.5);
+  }
+}

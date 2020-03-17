@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PriceBadge from "./priceBadge";
-import { Link } from "react-router-dom";
 import ProductListing from "./productListing";
+import ActionBar from "./action-bar";
 
 class PageProductDetail extends Component {
   render() {
@@ -29,8 +29,10 @@ class PageProductDetail extends Component {
     }
 
     return (
-      <div>
+      <React.Fragment>
         <div className="product-detail">
+          <ActionBar product={product} mode="view" />
+
           <h1>{product.name}</h1>
           <p>Product ID: {product.id}</p>
           <PriceBadge
@@ -39,11 +41,10 @@ class PageProductDetail extends Component {
             exchangeRates={this.props.exchangeRates}
           />
           <p>{product.description}</p>
-          <Link to={`/products/${product.id}/edit`}>Edit</Link>
         </div>
 
         {relatedProductsListing}
-      </div>
+      </React.Fragment>
     );
   }
 }

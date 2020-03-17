@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
+import ActionBar from "./action-bar";
 
 class PageProductEdit extends Component {
   constructor(props) {
@@ -80,79 +81,78 @@ class PageProductEdit extends Component {
     }
 
     return (
-      <div>
-        <form
-          onSubmit={event => {
-            event.preventDefault();
-            this.props.handleProductUpdate(
-              this.state.product,
-              this.state.originalId,
-              this.state.relatedProducts.filter(prod => prod.active === true)
-            );
-          }}
-        >
-          <div>
-            <input
-              type="text"
-              defaultValue={this.state.product.id}
-              name="id"
-              onChange={event => {
-                this.handleInputChange(event);
-              }}
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              defaultValue={this.state.product.name}
-              name="name"
-              onChange={event => {
-                this.handleInputChange(event);
-              }}
-            />
-          </div>
-          <div>
-            <textarea
-              defaultValue={this.state.product.description}
-              name="description"
-              onChange={event => {
-                this.handleInputChange(event);
-              }}
-            />
-          </div>
-          <div>
-            <select
-              className="currency-selector__select"
-              defaultValue={this.state.product.price.base}
-              name="base"
-              onChange={event => this.handleInputChange(event)}
-            >
-              {exchangeRates.map(opt => (
-                <option value={opt.base} key={opt.base}>
-                  {opt.base}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <input
-              type="text"
-              defaultValue={this.state.product.price.amount}
-              name="amount"
-              onChange={event => {
-                this.handleInputChange(event);
-              }}
-            />
-          </div>
+      <React.Fragment>
+        <div className="product-detail">
+          <form
+            onSubmit={event => {
+              event.preventDefault();
+              this.props.handleProductUpdate(
+                this.state.product,
+                this.state.originalId,
+                this.state.relatedProducts.filter(prod => prod.active === true)
+              );
+            }}
+          >
+            {/* ActionBar inside form for submit button positioning. */}
+            <ActionBar product={product} mode="edit" />
+            <div>
+              <input
+                type="text"
+                defaultValue={this.state.product.id}
+                name="id"
+                onChange={event => {
+                  this.handleInputChange(event);
+                }}
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                defaultValue={this.state.product.name}
+                name="name"
+                onChange={event => {
+                  this.handleInputChange(event);
+                }}
+              />
+            </div>
+            <div>
+              <textarea
+                defaultValue={this.state.product.description}
+                name="description"
+                onChange={event => {
+                  this.handleInputChange(event);
+                }}
+              />
+            </div>
+            <div>
+              <select
+                className="currency-selector__select"
+                defaultValue={this.state.product.price.base}
+                name="base"
+                onChange={event => this.handleInputChange(event)}
+              >
+                {exchangeRates.map(opt => (
+                  <option value={opt.base} key={opt.base}>
+                    {opt.base}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <input
+                type="text"
+                defaultValue={this.state.product.price.amount}
+                name="amount"
+                onChange={event => {
+                  this.handleInputChange(event);
+                }}
+              />
+            </div>
 
-          <div>{relatedProductsList}</div>
-
-          <div>
-            <input type="submit" value="submit" />
-            <Link to={`/products/${product.id}`}>Cancel</Link>
-          </div>
-        </form>
-      </div>
+            <div>{relatedProductsList}</div>
+          </form>
+        </div>
+      </React.Fragment>
     );
   }
 }
