@@ -135,7 +135,7 @@ class PageProductEdit extends Component {
 
             <div className="form__row">
               <label className="form__label" htmlFor="base">
-                Base Currency:
+                Product Price Base Currency:
               </label>
               <select
                 className="currency-selector__select"
