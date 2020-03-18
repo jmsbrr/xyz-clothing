@@ -1,0 +1,32 @@
+$min: unquote("min-width");
+$max: unquote("max-width");
+
+@mixin bp-small($operator: $min) {
+  @media (#{$operator}: $bp-small) {
+    @content;
+  }
+}
+
+@mixin bp-medium($operator: $min) {
+  @media (#{$operator}: $bp-medium) {
+    @content;
+  }
+}
+
+@mixin bp-large($operator: $min) {
+  @media (#{$operator}: $bp-large) {
+    @content;
+  }
+}
+
+@mixin bp-xlarge($operator: $min) {
+  @media (#{$operator}: $bp-xlarge) {
+    @content;
+  }
+}
+
+@mixin bp($operator: $min, $pixels: $bp-medium) {
+  @media (#{$operator}: $pixels) {
+    @content;
+  }
+}

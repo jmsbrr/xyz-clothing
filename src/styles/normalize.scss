@@ -1,0 +1,9 @@
+@import "normalize-scss";
+@include normalize();
+
+input,
+textarea,
+select,
+button {
+  font-family: $font-standard;
+}

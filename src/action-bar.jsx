@@ -36,12 +36,14 @@ class ActionBar extends Component {
 
     return (
       <div className="action-bar">
-        <div>
-          <Link to="/products" className="action-bar__view-all">
-            View All Products
-          </Link>
+        <div className="action-bar__inner">
+          <div>
+            <Link to="/products" className="action-bar__view-all">
+              View All Products
+            </Link>
+          </div>
+          {links}
         </div>
-        {links}
       </div>
     );
   }

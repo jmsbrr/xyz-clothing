@@ -16,7 +16,7 @@ class PageProductDetail extends Component {
       relatedProductsListing = (
         <div>
           <hr className="product-detail__separator" />
-          <h2 className="h4">Related Products</h2>
+          <h2 className="h3">Related Products</h2>
           <ProductListing
             products={products}
             appCurrency={this.props.appCurrency}

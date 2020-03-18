@@ -1,11 +1,14 @@
 html * {
   box-sizing: border-box;
-  font-family: "Barlow", sans-serif;
+}
+
+html {
+  font-family: $font-standard;
   font-size: 1em;
   line-height: 1.5;
-  color: $color-primary;
 }
 
 body {
+  color: $color-primary;
   font-size: 1.25rem;
 }

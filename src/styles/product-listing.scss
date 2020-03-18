@@ -1,0 +1,26 @@
+.product-listing {
+  @include bp-large {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  > .product-card {
+    @include bp-large {
+      flex-basis: calc(50% - 20px);
+    }
+
+    @include bp-xlarge {
+      flex-basis: calc(50% - 40px);
+    }
+  }
+
+  > .product-card:nth-child(even) {
+    @include bp-large {
+      margin-left: 40px;
+    }
+
+    @include bp-xlarge {
+      margin-left: 80px;
+    }
+  }
+}

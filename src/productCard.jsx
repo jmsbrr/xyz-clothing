@@ -8,15 +8,19 @@ class ProductCard extends Component {
 
     return (
       <Link to={`/products/${product.id}`} className="product-card">
-        <h2 className="product-card__heading">{product.name}</h2>
-        <div className="product-card__copy">{product.description}</div>
-        <div className="product-card__id">ID: {product.id}</div>
-        <PriceBadge
-          price={product.price}
-          appCurrency={this.props.appCurrency}
-          exchangeRates={this.props.exchangeRates}
-          className="product-card__price"
-        />
+        <div className="product-card__top">
+          <h2 className="product-card__heading">{product.name}</h2>
+          <div className="product-card__copy">{product.description}</div>
+        </div>
+        <div className="product-card__info">
+          <PriceBadge
+            price={product.price}
+            appCurrency={this.props.appCurrency}
+            exchangeRates={this.props.exchangeRates}
+            className="product-card__price"
+          />
+          <div className="product-card__id">Product ID: {product.id}</div>
+        </div>
       </Link>
     );
   }

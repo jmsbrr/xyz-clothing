@@ -3,8 +3,14 @@
 }
 
 .main {
-  padding: 72px 80px 80px;
-  margin-left: 320px;
+  margin-left: 280px;
+  max-width: calc(960px + 24px);
+  padding: 72px 24px 80px 40px;
+
+  @include bp-large {
+    margin-left: 320px;
+    padding: 72px 24px 80px 80px;
+  }
 }
 
 .sidebar {
@@ -17,5 +23,9 @@
   padding: 40px;
   position: fixed;
   top: 0;
-  width: 320px;
+  width: 280px;
+
+  @include bp-large {
+    width: 320px;
+  }
 }

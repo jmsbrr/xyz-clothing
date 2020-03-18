@@ -1,12 +1,13 @@
-@import "normalize-scss";
-@include normalize();
 @import "./styles/globals";
+@import "./styles/normalize";
+@import "./styles/mixin-bp";
 @import "./styles/html";
 @import "./styles/layout";
 @import "./styles/headings";
 @import "./styles/btn";
 @import "./styles/logo";
 @import "./styles/primary-nav";
+@import "./styles/product-listing";
 @import "./styles/product-card";
 @import "./styles/currency-selector";
 @import "./styles/product-detail";

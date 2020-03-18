@@ -1,15 +1,24 @@
 .action-bar {
-  align-items: center;
   background-color: #2f3841;
   height: 72px;
-  left: 320px;
-  display: flex;
+  left: 280px;
   font-size: 1rem;
-  justify-content: space-between;
-  padding: 18px 16px 18px 80px;
+  padding: 18px 24px 18px 40px;
   position: fixed;
   right: 0;
   top: 0;
+
+  @include bp-large {
+    left: 320px;
+    padding: 18px 24px 18px 80px;
+  }
+}
+
+.action-bar__inner {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  max-width: calc(960px - 80px);
 }
 
 .action-bar__view-all {
