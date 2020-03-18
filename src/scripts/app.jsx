@@ -30,8 +30,10 @@ class App extends Component {
   }
 
   handleProductUpdate(updatedProductData, originalProductId, relatedProducts) {
-    const productStateCopy = this.state.products;
+    let productStateCopy = this.state.products;
     let updatedProduct = updatedProductData;
+
+    // Build the relatedIds array
     let relatedIds = [];
     relatedProducts.forEach(prod => {
       relatedIds.push(prod.id);
@@ -39,11 +41,26 @@ class App extends Component {
 
     updatedProduct.relatedProducts = relatedIds;
 
+    // Find product in state.products to update
     const indexToSplice = productStateCopy.findIndex(
       prod => prod.id === originalProductId
     );
 
-    productStateCopy.splice(indexToSplice, 1, updatedProductData);
+    // Product ID has changed. Update relatedProducts array for other products.
+    if (originalProductId !== updatedProductData.id) {
+      productStateCopy.forEach(prod => {
+        if (prod.relatedProducts.includes(originalProductId)) {
+          const index = prod.relatedProducts.findIndex(
+            p => p === originalProductId
+          );
+
+          prod.relatedProducts[index] = updatedProductData.id;
+        }
+      });
+    }
+
+    // Update products
+    productStateCopy.splice(indexToSplice, 1, updatedProduct);
     this.setState({ ...productStateCopy, redirect: true });
   }
 
