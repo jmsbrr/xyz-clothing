@@ -3,7 +3,7 @@
   height: 72px;
   left: 280px;
   font-size: 1rem;
-  padding: 18px 24px 18px 40px;
+  padding: 16px 24px 16px 40px;
   position: fixed;
   right: 0;
   top: 0;
@@ -11,7 +11,7 @@
 
   @include bp-large {
     left: 320px;
-    padding: 18px 24px 18px 80px;
+    padding: 16px 24px 16px 80px;
   }
 }
 

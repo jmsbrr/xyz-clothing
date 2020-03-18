@@ -1,10 +1,12 @@
 @import "./general/globals";
 @import "./general/normalize";
 @import "./general/mixin-bp";
+@import "./general/shared";
 @import "./general/html";
 @import "./general/layout";
 @import "./general/headings";
 @import "./general/btn";
+@import "./components/sidebar";
 @import "./components/logo";
 @import "./components/primary-nav";
 @import "./components/product-listing";

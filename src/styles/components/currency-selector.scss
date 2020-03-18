@@ -1,4 +1,14 @@
+.currency-selector {
+  align-items: center;
+  display: flex;
+}
+
 .currency-selector__label {
   color: #fff;
-  margin-right: 4px;
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.currency-selector__select {
+  font-size: 1.125rem;
 }

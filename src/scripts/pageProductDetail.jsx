@@ -18,7 +18,7 @@ class PageProductDetail extends Component {
       relatedProductsListing = (
         <div>
           <hr className="product-detail__separator" />
-          <h2 className="h3">Related Products</h2>
+          <h2 className="h4">Related Products</h2>
           <ProductListing
             products={products}
             appCurrency={this.props.appCurrency}
@@ -33,14 +33,15 @@ class PageProductDetail extends Component {
         <div className="product-detail">
           <ActionBar product={product} mode="view" />
 
-          <h1>{product.name}</h1>
-          <p>Product ID: {product.id}</p>
+          <h1 className="product-detail__heading">{product.name}</h1>
+          <p className="product-detail__id">Product ID: {product.id}</p>
           <PriceBadge
+            className="product-detail__price"
             price={product.price}
             appCurrency={this.props.appCurrency}
             exchangeRates={this.props.exchangeRates}
           />
-          <p>{product.description}</p>
+          <p className="product-detail__description">{product.description}</p>
         </div>
 
         {relatedProductsListing}

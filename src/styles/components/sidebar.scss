@@ -1,0 +1,16 @@
+.sidebar {
+  background-color: $color-primary;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+  left: 0;
+  padding: 26px 40px 40px;
+  position: fixed;
+  top: 0;
+  width: 280px;
+
+  @include bp-large {
+    width: 320px;
+  }
+}
