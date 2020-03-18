@@ -12,8 +12,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Option 1: Run in development mode
 
-From the project root:
-
 1. Run `yarn start` or `npm run start`
 2. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
@@ -21,8 +19,6 @@ From the project root:
 
 Install the serve package globally (only once (ever)):
 `yarn global add serve` or `npm install -g serve`
-
-From the project root:
 
 1. `yarn build` or `npm run build`
 2. `serve -s build`
