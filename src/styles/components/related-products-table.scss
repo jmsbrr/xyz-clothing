@@ -1,0 +1,35 @@
+.related-products-table {
+  display: table;
+  font-size: 1.125rem;
+  width: 100%;
+}
+
+.related-products-table__header {
+  background: #eee;
+  display: table-header-group;
+  font-size: 1rem;
+}
+
+.related-products-table__row {
+  display: table-row;
+}
+
+.related-products-table__col {
+  border-bottom: 1px solid #ddd;
+  display: table-cell;
+  padding: 8px;
+}
+
+.related-products-table__col:first-child {
+  padding: 8px 16px;
+  text-align: center;
+  width: 20px;
+}
+
+.related-products-table__col:nth-child(2) {
+  width: 33%;
+
+  @include bp-large {
+    width: 160px;
+  }
+}

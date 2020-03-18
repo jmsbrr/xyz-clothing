@@ -5,6 +5,8 @@ import ActionBar from "./action-bar";
 
 class PageProductDetail extends Component {
   render() {
+    window.scrollTo(0, 0);
+
     const product = this.props.product;
     let relatedProductsListing;
 
@@ -24,8 +26,6 @@ class PageProductDetail extends Component {
           />
         </div>
       );
-
-      window.scrollTo(0, 0);
     }
 
     return (

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import ActionBar from "./action-bar";
+import FormInputText from "./formInputText";
+import FormInputTextarea from "./formInputTextarea";
 
 class PageProductEdit extends Component {
   constructor(props) {
@@ -34,6 +36,10 @@ class PageProductEdit extends Component {
     this.state.relatedProducts.splice(indexInProducts, 1);
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   handleInputChange(event) {
     const name = event.target.name;
     const value = event.target.value;
@@ -61,18 +67,24 @@ class PageProductEdit extends Component {
     const exchangeRates = this.props.exchangeRates;
     const relatedProductsList = this.state.relatedProducts.map(
       (prod, index) => (
-        <div key={prod.id}>
-          <label htmlFor={`check-${prod.id}`}>
-            ID: {prod.id}&nbsp;&nbsp;|&nbsp;&nbsp;{prod.name}&nbsp;&nbsp;
-          </label>
-          <input
-            type="checkbox"
-            name={prod.id}
-            id={`check-${prod.id}`}
-            checked={this.state.relatedProducts[index].active}
-            onChange={event => this.handleCheckboxChange(event, index)}
-          />
-        </div>
+        <label
+          className="related-products-table__row"
+          htmlFor={`check-${prod.id}`}
+          key={prod.id}
+        >
+          <span className="related-products-table__col">
+            <input
+              className="related-products-table__col"
+              type="checkbox"
+              name={prod.id}
+              id={`check-${prod.id}`}
+              checked={this.state.relatedProducts[index].active}
+              onChange={event => this.handleCheckboxChange(event, index)}
+            />
+          </span>
+          <span className="related-products-table__col">{prod.id}</span>
+          <span className="related-products-table__col">{prod.name}</span>
+        </label>
       )
     );
 
@@ -84,6 +96,7 @@ class PageProductEdit extends Component {
       <React.Fragment>
         <div className="product-detail">
           <form
+            className="form"
             onSubmit={event => {
               event.preventDefault();
               this.props.handleProductUpdate(
@@ -95,40 +108,40 @@ class PageProductEdit extends Component {
           >
             {/* ActionBar inside form for submit button positioning. */}
             <ActionBar product={product} mode="edit" />
-            <div>
-              <input
-                type="text"
-                defaultValue={this.state.product.id}
-                name="id"
-                onChange={event => {
-                  this.handleInputChange(event);
-                }}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                defaultValue={this.state.product.name}
-                name="name"
-                onChange={event => {
-                  this.handleInputChange(event);
-                }}
-              />
-            </div>
-            <div>
-              <textarea
-                defaultValue={this.state.product.description}
-                name="description"
-                onChange={event => {
-                  this.handleInputChange(event);
-                }}
-              />
-            </div>
-            <div>
+
+            <FormInputText
+              label="ID"
+              id="id"
+              defaultValue={this.state.product.id}
+              name="id"
+              handleInputChange={event => this.handleInputChange(event)}
+            />
+
+            <FormInputText
+              label="Name"
+              id="name"
+              defaultValue={this.state.product.name}
+              name="name"
+              handleInputChange={event => this.handleInputChange(event)}
+            />
+
+            <FormInputTextarea
+              label="Description"
+              id="description"
+              defaultValue={this.state.product.description}
+              name="description"
+              handleInputChange={event => this.handleInputChange(event)}
+            />
+
+            <div className="form__row">
+              <label className="form__label" htmlFor="base">
+                Base Currency:
+              </label>
               <select
                 className="currency-selector__select"
                 defaultValue={this.state.product.price.base}
                 name="base"
+                id="base"
                 onChange={event => this.handleInputChange(event)}
               >
                 {exchangeRates.map(opt => (
@@ -138,18 +151,29 @@ class PageProductEdit extends Component {
                 ))}
               </select>
             </div>
-            <div>
-              <input
-                type="text"
-                defaultValue={this.state.product.price.amount}
-                name="amount"
-                onChange={event => {
-                  this.handleInputChange(event);
-                }}
-              />
-            </div>
 
-            <div>{relatedProductsList}</div>
+            <FormInputText
+              label="Product Price"
+              id="amount"
+              defaultValue={this.state.product.price.amount}
+              name="amount"
+              handleInputChange={event => this.handleInputChange(event)}
+            />
+
+            <div className="form__row">
+              <div className="form__label">Related Products:</div>
+              <div className="related-products-table">
+                <div className="related-products-table__header">
+                  <div className="related-products-table__col"></div>
+                  <div className="related-products-table__col">Product ID</div>
+                  <div className="related-products-table__col">
+                    Product Name
+                  </div>
+                </div>
+
+                {relatedProductsList}
+              </div>
+            </div>
           </form>
         </div>
       </React.Fragment>

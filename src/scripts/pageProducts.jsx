@@ -4,6 +4,7 @@ import ProductListing from "./productListing";
 class PageProducts extends Component {
   componentDidMount() {
     this.props.resetRedirect();
+    window.scrollTo(0, 0);
   }
 
   render() {
