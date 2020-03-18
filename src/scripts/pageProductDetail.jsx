@@ -8,7 +8,7 @@ class PageProductDetail extends Component {
     window.scrollTo(0, 0);
 
     const product = this.props.product;
-    let relatedProductsListing;
+    let relatedProductsListing = null;
 
     if (product.relatedProducts.length > 0) {
       const products = this.props.products.filter(prod => {
