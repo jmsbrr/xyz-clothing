@@ -101,7 +101,7 @@ class App extends Component {
                   exchangeRates={this.state.exchangeRates}
                   products={this.state.products}
                   product={this.state.products.find(
-                    prod => prod.id === parseInt(match.params.id)
+                    prod => prod.id.toString() === match.params.id
                   )}
                 />
               )}
@@ -113,7 +113,7 @@ class App extends Component {
                 <PageProductEdit
                   products={this.state.products}
                   product={this.state.products.find(
-                    prod => prod.id === parseInt(match.params.id)
+                    prod => prod.id.toString() === match.params.id
                   )}
                   handleProductUpdate={(
                     updatedProductData,

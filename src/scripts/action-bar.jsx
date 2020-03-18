@@ -9,7 +9,8 @@ class ActionBar extends Component {
       links = (
         <div>
           <input
-            className="btn btn--accent action-bar__btn"
+            disabled={!this.props.formValid}
+            className="btn btn--accent action-bar__btn form__submit"
             type="submit"
             value="Save"
           />

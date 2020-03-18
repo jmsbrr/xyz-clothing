@@ -18,9 +18,11 @@ class PageProductEdit extends Component {
         },
         relatedProducts: props.product.relatedProducts
       },
-      hasChanged: false,
+      existingProductIds: this.props.products.map(prod => prod.id.toString()),
       originalId: props.product.id,
-      relatedProducts: []
+      relatedProducts: [],
+      validationErrors: {},
+      formValid: true
     };
 
     this.state.relatedProducts = this.props.products.map(prod => ({
@@ -40,20 +42,66 @@ class PageProductEdit extends Component {
     window.scrollTo(0, 0);
   }
 
+  isValid(name, value) {
+    const notEmpty = value.length > 0;
+    const isCurrency = /^(\d+?)(\.\d{1,2})?$/;
+
+    switch (name) {
+      case "id":
+        return notEmpty && !this.state.existingProductIds.includes(value);
+
+      case "name":
+        return value.length > 2;
+
+      case "amount":
+        return notEmpty && isCurrency.test(value);
+
+      default:
+        return true;
+    }
+  }
+
   handleInputChange(event) {
     const name = event.target.name;
     const value = event.target.value;
-    const stateCopy = { ...this.state };
+    let stateCopy = { ...this.state };
 
-    if (name === "base" || name === "amount") {
-      stateCopy.product.price[name] = value;
-    } else if (name === "id") {
-      stateCopy.product[name] = parseInt(value);
+    if (this.isValid(name, value)) {
+      // If field is valid, update local state with new field value.
+      if (name === "base" || name === "amount") {
+        stateCopy.product.price[name] = value;
+      } else {
+        stateCopy.product[name] = value;
+      }
+
+      // Delete previous validation errors.
+      delete stateCopy.validationErrors[name];
+
+      stateCopy.formValid =
+        Object.keys(stateCopy.validationErrors).length === 0;
+      this.setState({ ...stateCopy });
     } else {
-      stateCopy.product[name] = value;
-    }
+      // If field is invalid, display error messages.
+      let validationErrors = { ...this.state.validationErrors };
 
-    this.setState({ ...stateCopy });
+      if (name === "id") {
+        validationErrors[name] =
+          "Product ID must be unique and at least 1 character long.";
+      } else if (name === "name") {
+        validationErrors[name] =
+          "Product Name must be at least 3 characters long.";
+      } else if (name === "amount") {
+        validationErrors[name] =
+          "Price must only contain numbers + a single decimal point. e.g. 59.95";
+      } else {
+        validationErrors[name] = "Sorry, that value is invalid for this field.";
+      }
+
+      this.setState({
+        validationErrors,
+        formValid: Object.keys(validationErrors).length === 0
+      });
+    }
   }
 
   handleCheckboxChange(event, arrIndex) {
@@ -107,22 +155,28 @@ class PageProductEdit extends Component {
             }}
           >
             {/* ActionBar inside form for submit button positioning. */}
-            <ActionBar product={product} mode="edit" />
+            <ActionBar
+              product={product}
+              mode="edit"
+              formValid={this.state.formValid}
+            />
 
             <FormInputText
-              label="ID"
+              label="Product ID"
               id="id"
               defaultValue={this.state.product.id}
               name="id"
               handleInputChange={event => this.handleInputChange(event)}
+              validationErrors={this.state.validationErrors}
             />
 
             <FormInputText
-              label="Name"
+              label="Product Name"
               id="name"
               defaultValue={this.state.product.name}
               name="name"
               handleInputChange={event => this.handleInputChange(event)}
+              validationErrors={this.state.validationErrors}
             />
 
             <FormInputTextarea
@@ -131,11 +185,12 @@ class PageProductEdit extends Component {
               defaultValue={this.state.product.description}
               name="description"
               handleInputChange={event => this.handleInputChange(event)}
+              validationErrors={this.state.validationErrors}
             />
 
             <div className="form__row">
               <label className="form__label" htmlFor="base">
-                Product Price Base Currency:
+                Base Currency:
               </label>
               <select
                 className="currency-selector__select"
@@ -153,11 +208,12 @@ class PageProductEdit extends Component {
             </div>
 
             <FormInputText
-              label="Product Price"
+              label="Price"
               id="amount"
               defaultValue={this.state.product.price.amount}
               name="amount"
               handleInputChange={event => this.handleInputChange(event)}
+              validationErrors={this.state.validationErrors}
             />
 
             <div className="form__row">
@@ -165,7 +221,7 @@ class PageProductEdit extends Component {
               <div className="related-products-table">
                 <div className="related-products-table__header">
                   <div className="related-products-table__col"></div>
-                  <div className="related-products-table__col">Product ID</div>
+                  <div className="related-products-table__col">ID</div>
                   <div className="related-products-table__col">
                     Product Name
                   </div>
