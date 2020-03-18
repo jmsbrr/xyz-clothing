@@ -26,9 +26,11 @@
 
   &:hover,
   &:focus {
-    background-color: lighten($color-accent, 7%);
+    background-color: darken($color-accent, 10%);
   }
 }
+
+$darkerPrimary: darken($color-primary, 10%);
 
 .btn--ghost {
   background: transparent;
@@ -37,6 +39,6 @@
 
   &:hover,
   &:focus {
-    background-color: rgba($color-primary, 0.5);
+    background-color: rgba($darkerPrimary, 0.75);
   }
 }
