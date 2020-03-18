@@ -7,6 +7,7 @@
   position: fixed;
   right: 0;
   top: 0;
+  min-width: calc(768px - 280px);
 
   @include bp-large {
     left: 320px;
