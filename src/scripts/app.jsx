@@ -5,9 +5,9 @@ import PageProducts from "./pageProducts";
 import PageProductDetail from "./pageProductDetail";
 import PageProductEdit from "./pageProductEdit";
 import Sidebar from "./sidebar";
-import productsData from "./products.json";
-import exchangeRates from "./exchange_rates.json";
-import "./app.scss";
+import productsData from "../data/products.json";
+import exchangeRates from "../data/exchange_rates.json";
+import "../styles/app.scss";
 
 class App extends Component {
   constructor(props) {
