@@ -2,8 +2,6 @@ import React, { Component } from "react";
 
 class CurrencySelector extends Component {
   render() {
-    const exchangeRates = this.props.exchangeRates;
-
     return (
       <div>
         <form className="currency-selector">
@@ -14,11 +12,9 @@ class CurrencySelector extends Component {
             className="currency-selector__select"
             id="userCurrency"
             defaultValue={this.props.appCurrency}
-            onChange={event =>
-              this.props.handleCurrencyChange(event.target.value)
-            }
+            onChange={event => this.props.onCurrencyChange(event.target.value)}
           >
-            {exchangeRates.map(opt => (
+            {this.props.exchangeRates.map(opt => (
               <option value={opt.base} key={opt.base}>
                 {opt.base}
               </option>

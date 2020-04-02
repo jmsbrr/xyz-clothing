@@ -31,7 +31,7 @@ class FormInputText extends Component {
           name={this.props.name}
           id={this.props.id}
           onChange={event => {
-            this.props.handleInputChange(event);
+            this.props.onInputChange(event);
           }}
         />
         {errorMessage}

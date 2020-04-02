@@ -70,7 +70,7 @@ class App extends Component {
           <Sidebar
             exchangeRates={this.state.exchangeRates}
             appCurrency={this.state.appCurrency}
-            handleCurrencyChange={value => this.handleCurrencyChange(value)}
+            onCurrencyChange={this.handleCurrencyChange}
           />
 
           <div className="main">
@@ -110,17 +110,7 @@ class App extends Component {
                   product={this.state.products.find(
                     prod => prod.id.toString() === match.params.id
                   )}
-                  handleProductUpdate={(
-                    updatedProductData,
-                    originalId,
-                    relatedProducts
-                  ) =>
-                    this.handleProductUpdate(
-                      updatedProductData,
-                      originalId,
-                      relatedProducts
-                    )
-                  }
+                  onProductUpdate={this.handleProductUpdate}
                   exchangeRates={this.state.exchangeRates}
                   redirect={this.state.redirect}
                 />

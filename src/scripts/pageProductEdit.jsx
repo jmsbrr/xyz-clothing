@@ -146,7 +146,7 @@ class PageProductEdit extends Component {
             className="form"
             onSubmit={event => {
               event.preventDefault();
-              this.props.handleProductUpdate(
+              this.props.onProductUpdate(
                 this.state.product,
                 this.state.originalId,
                 this.state.relatedProducts
@@ -167,7 +167,7 @@ class PageProductEdit extends Component {
               id="id"
               defaultValue={this.state.product.id}
               name="id"
-              handleInputChange={event => this.handleInputChange(event)}
+              onInputChange={event => this.handleInputChange(event)}
               validationErrors={this.state.validationErrors}
             />
 
@@ -176,7 +176,7 @@ class PageProductEdit extends Component {
               id="name"
               defaultValue={this.state.product.name}
               name="name"
-              handleInputChange={event => this.handleInputChange(event)}
+              onInputChange={event => this.handleInputChange(event)}
               validationErrors={this.state.validationErrors}
             />
 
@@ -185,7 +185,7 @@ class PageProductEdit extends Component {
               id="description"
               defaultValue={this.state.product.description}
               name="description"
-              handleInputChange={event => this.handleInputChange(event)}
+              onInputChange={event => this.handleInputChange(event)}
               validationErrors={this.state.validationErrors}
             />
 
@@ -213,7 +213,7 @@ class PageProductEdit extends Component {
               id="amount"
               defaultValue={this.state.product.price.amount}
               name="amount"
-              handleInputChange={event => this.handleInputChange(event)}
+              onInputChange={event => this.handleInputChange(event)}
               validationErrors={this.state.validationErrors}
             />
 

@@ -14,7 +14,7 @@ class Sidebar extends Component {
         <CurrencySelector
           exchangeRates={this.props.exchangeRates}
           appCurrency={this.props.appCurrency}
-          handleCurrencyChange={value => this.props.handleCurrencyChange(value)}
+          onCurrencyChange={this.props.onCurrencyChange}
         />
       </div>
     );
