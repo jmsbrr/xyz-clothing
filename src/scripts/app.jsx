@@ -19,54 +19,49 @@ class App extends Component {
       exchangeRates: exchangeRates,
       redirect: false
     };
-
-    this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
-    this.handleProductUpdate = this.handleProductUpdate.bind(this);
-    this.resetRedirect = this.resetRedirect.bind(this);
   }
 
-  handleCurrencyChange(userSetCurrency) {
+  handleCurrencyChange = userSetCurrency => {
     this.setState({ appCurrency: userSetCurrency });
-  }
+  };
 
-  handleProductUpdate(updatedProductData, originalProductId, relatedProducts) {
-    let productStateCopy = this.state.products;
+  handleProductUpdate = (
+    updatedProductData,
+    originalProductId,
+    relatedProducts
+  ) => {
+    let newProductState = this.state.products;
     let updatedProduct = updatedProductData;
 
-    // Build the relatedIds array
-    let relatedIds = [];
-    relatedProducts.forEach(prod => {
-      relatedIds.push(prod.id);
-    });
-
-    updatedProduct.relatedProducts = relatedIds;
+    updatedProduct.relatedProducts = relatedProducts;
 
     // Find product in state.products to update
-    const indexToSplice = productStateCopy.findIndex(
+    const indexToSplice = newProductState.findIndex(
       prod => prod.id === originalProductId
     );
 
-    // Product ID has changed. Update relatedProducts array for other products.
+    // The ID of this product has been modified.
+    // Let's update other product's references to the old ID
     if (originalProductId !== updatedProductData.id) {
-      productStateCopy.forEach(prod => {
-        if (prod.relatedProducts.includes(originalProductId)) {
-          const index = prod.relatedProducts.findIndex(
-            p => p === originalProductId
-          );
+      for (let prod of newProductState) {
+        let relatedProducts = prod.relatedProducts;
 
-          prod.relatedProducts[index] = updatedProductData.id;
+        if (relatedProducts.includes(originalProductId)) {
+          const index = relatedProducts.findIndex(p => p === originalProductId);
+
+          relatedProducts[index] = updatedProductData.id;
         }
-      });
+      }
     }
 
     // Update products
-    productStateCopy.splice(indexToSplice, 1, updatedProduct);
-    this.setState({ ...productStateCopy, redirect: true });
-  }
+    newProductState.splice(indexToSplice, 1, updatedProduct);
+    this.setState({ products: [...newProductState], redirect: true });
+  };
 
-  resetRedirect() {
+  resetRedirect = () => {
     this.setState({ redirect: false });
-  }
+  };
 
   render() {
     return (

@@ -111,8 +111,7 @@ class PageProductEdit extends Component {
   }
 
   render() {
-    const product = this.props.product;
-    const exchangeRates = this.props.exchangeRates;
+    const { product, exchangeRates } = this.props;
     const relatedProductsList = this.state.relatedProducts.map(
       (prod, index) => (
         <label
@@ -150,7 +149,9 @@ class PageProductEdit extends Component {
               this.props.handleProductUpdate(
                 this.state.product,
                 this.state.originalId,
-                this.state.relatedProducts.filter(prod => prod.active === true)
+                this.state.relatedProducts
+                  .filter(prod => prod.active === true)
+                  .map(prod => prod.id)
               );
             }}
           >
