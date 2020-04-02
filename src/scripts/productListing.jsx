@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import ProductCard from "./productCard";
 
 const ProductListing = ({ products, appCurrency, exchangeRates }) => {

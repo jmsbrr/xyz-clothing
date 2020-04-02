@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PriceBadge from "./priceBadge";
 import ProductListing from "./productListing";
 import ActionBar from "./action-bar";

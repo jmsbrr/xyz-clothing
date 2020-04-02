@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import logoImgSrc from "../images/XYZClothing-logo.svg";
 
 const logo = () => {

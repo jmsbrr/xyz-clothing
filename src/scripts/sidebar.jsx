@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PrimaryNav from "./primaryNav";
 import CurrencySelector from "./currencySelector";
 import Logo from "./logo";
