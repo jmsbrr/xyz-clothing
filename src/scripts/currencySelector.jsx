@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-const CurrencySelector = props => {
+const CurrencySelector = ({ appCurrency, exchangeRates, onCurrencyChange }) => {
   return (
     <div>
       <form className="currency-selector">
@@ -10,10 +10,10 @@ const CurrencySelector = props => {
         <select
           className="currency-selector__select"
           id="userCurrency"
-          defaultValue={props.appCurrency}
-          onChange={event => props.onCurrencyChange(event.target.value)}
+          defaultValue={appCurrency}
+          onChange={event => onCurrencyChange(event.target.value)}
         >
-          {props.exchangeRates.map(opt => (
+          {exchangeRates.map(opt => (
             <option value={opt.base} key={opt.base}>
               {opt.base}
             </option>

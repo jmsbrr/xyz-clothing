@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PriceBadge from "./priceBadge";
 
-const ProductCard = props => {
-  const { product, appCurrency, exchangeRates } = props;
-  const { id, name, description, price } = product;
-
+const ProductCard = ({
+  product: { id, name, description, price },
+  appCurrency,
+  exchangeRates
+}) => {
   return (
     <Link to={`/products/${id}`} className="product-card">
       <div className="product-card__top">

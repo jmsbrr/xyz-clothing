@@ -16,21 +16,21 @@ const ActionBar = props => {
   );
 };
 
-const getLinks = props => {
+const getLinks = ({ mode, formValid, product: { id } }) => {
   let links;
 
-  if (props.mode === "edit") {
+  if (mode === "edit") {
     links = (
       <React.Fragment>
         <input
-          disabled={!props.formValid}
+          disabled={!formValid}
           className="btn btn--accent action-bar__btn form__submit"
           type="submit"
           value="Save"
         />
         <Link
           className="btn btn--ghost action-bar__btn"
-          to={`/products/${props.product.id}/`}
+          to={`/products/${id}/`}
         >
           Cancel
         </Link>
@@ -40,7 +40,7 @@ const getLinks = props => {
     links = (
       <Link
         className="btn btn--ghost action-bar__btn"
-        to={`/products/${props.product.id}/edit`}
+        to={`/products/${id}/edit`}
       >
         Edit
       </Link>

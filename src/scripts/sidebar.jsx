@@ -3,7 +3,7 @@ import PrimaryNav from "./primaryNav";
 import CurrencySelector from "./currencySelector";
 import Logo from "./logo";
 
-const Sidebar = props => {
+const Sidebar = ({ exchangeRates, appCurrency, onCurrencyChange }) => {
   return (
     <div className="sidebar">
       <div>
@@ -12,9 +12,9 @@ const Sidebar = props => {
       </div>
 
       <CurrencySelector
-        exchangeRates={props.exchangeRates}
-        appCurrency={props.appCurrency}
-        onCurrencyChange={props.onCurrencyChange}
+        exchangeRates={exchangeRates}
+        appCurrency={appCurrency}
+        onCurrencyChange={onCurrencyChange}
       />
     </div>
   );

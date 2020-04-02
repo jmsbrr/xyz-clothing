@@ -3,6 +3,7 @@ import React, { Component } from "react";
 class PriceBadge extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       currency: this.props.appCurrency
     };
@@ -20,8 +21,7 @@ class PriceBadge extends Component {
   }
 
   updatePrice() {
-    const productPrice = this.props.price.amount;
-    const baseCurrency = this.props.price.base;
+    const { amount: productPrice, base: baseCurrency } = this.props.price;
 
     if (baseCurrency === this.props.appCurrency) {
       this.setPrice(productPrice);

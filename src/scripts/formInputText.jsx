@@ -1,17 +1,21 @@
 import React, { Component } from "react";
 
-const FormInputText = props => {
-  const validationErrors = props.validationErrors;
+const FormInputText = ({
+  validationErrors,
+  id,
+  label,
+  defaultValue,
+  name,
+  onInputChange
+}) => {
   let fieldInvalid;
   let errorMessage = null;
 
   if (validationErrors !== undefined) {
-    if (validationErrors.hasOwnProperty(props.id)) {
+    if (validationErrors.hasOwnProperty(id)) {
       fieldInvalid = true;
       errorMessage = (
-        <div className="form__validation-message">
-          {validationErrors[props.id]}
-        </div>
+        <div className="form__validation-message">{validationErrors[id]}</div>
       );
     } else {
       fieldInvalid = false;
@@ -20,17 +24,17 @@ const FormInputText = props => {
 
   return (
     <div className={`form__row ${fieldInvalid ? "field-error" : ""} `}>
-      <label className="form__label" htmlFor={props.id}>
-        {props.label}:
+      <label className="form__label" htmlFor={id}>
+        {label}:
       </label>
       <input
         className="form__input-text"
         type="text"
-        defaultValue={props.defaultValue.toString()}
-        name={props.name}
-        id={props.id}
+        defaultValue={defaultValue.toString()}
+        name={name}
+        id={id}
         onChange={event => {
-          props.onInputChange(event);
+          onInputChange(event);
         }}
       />
       {errorMessage}

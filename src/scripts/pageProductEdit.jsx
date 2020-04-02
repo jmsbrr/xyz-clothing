@@ -7,32 +7,46 @@ import FormInputTextarea from "./formInputTextarea";
 class PageProductEdit extends Component {
   constructor(props) {
     super(props);
+
+    const {
+      product: {
+        id,
+        name,
+        description,
+        price: { base, amount },
+        relatedProducts
+      },
+      products
+    } = props;
+
+    console.log(description);
+
     this.state = {
       product: {
-        id: props.product.id,
-        name: props.product.name,
-        description: props.product.description,
+        id: id,
+        name: name,
+        description: description,
         price: {
-          base: props.product.price.base,
-          amount: props.product.price.amount
+          base: base,
+          amount: amount
         },
-        relatedProducts: props.product.relatedProducts
+        relatedProducts: relatedProducts
       },
-      existingProductIds: this.props.products.map(prod => prod.id.toString()),
-      originalId: props.product.id,
+      existingProductIds: products.map(prod => prod.id.toString()),
+      originalId: id,
       relatedProducts: [],
       validationErrors: {},
       formValid: true
     };
 
-    this.state.relatedProducts = this.props.products.map(prod => ({
+    this.state.relatedProducts = products.map(prod => ({
       id: prod.id,
       name: prod.name,
-      active: props.product.relatedProducts.includes(prod.id)
+      active: relatedProducts.includes(prod.id)
     }));
 
     const indexInProducts = this.state.relatedProducts.findIndex(
-      prod => prod.id === props.product.id
+      prod => prod.id === id
     );
 
     this.state.relatedProducts.splice(indexInProducts, 1);

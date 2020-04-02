@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import ProductCard from "./productCard";
 
-const ProductListing = props => {
-  const { products, appCurrency, exchangeRates } = props;
-
+const ProductListing = ({ products, appCurrency, exchangeRates }) => {
   return (
     <div className="product-listing">
       {products.map(prod => (

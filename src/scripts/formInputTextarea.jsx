@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 
-const FormInputText = props => {
+const FormInputText = ({ id, label, defaultValue, name, onInputChange }) => {
   return (
     <div className="form__row">
-      <label className="form__label" htmlFor={props.id}>
-        {props.label}:
+      <label className="form__label" htmlFor={id}>
+        {label}:
       </label>
       <textarea
         className="form__input-textarea"
         type="text"
-        defaultValue={props.defaultValue}
-        name={props.name}
-        id={props.id}
+        defaultValue={defaultValue}
+        name={name}
+        id={id}
         onChange={event => {
-          props.onInputChange(event);
+          onInputChange(event);
         }}
       />
     </div>
