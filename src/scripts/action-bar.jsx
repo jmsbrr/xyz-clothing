@@ -3,11 +3,26 @@ import { Link } from "react-router-dom";
 
 class ActionBar extends Component {
   render() {
+    return (
+      <div className="action-bar">
+        <div className="action-bar__inner">
+          <div>
+            <Link to="/products" className="action-bar__view-all">
+              View All Products
+            </Link>
+          </div>
+          <div>{this.getLinks()}</div>
+        </div>
+      </div>
+    );
+  }
+
+  getLinks() {
     let links;
 
     if (this.props.mode === "edit") {
       links = (
-        <div>
+        <React.Fragment>
           <input
             disabled={!this.props.formValid}
             className="btn btn--accent action-bar__btn form__submit"
@@ -20,33 +35,20 @@ class ActionBar extends Component {
           >
             Cancel
           </Link>
-        </div>
+        </React.Fragment>
       );
     } else {
       links = (
-        <div>
-          <Link
-            className="btn btn--ghost action-bar__btn"
-            to={`/products/${this.props.product.id}/edit`}
-          >
-            Edit
-          </Link>
-        </div>
+        <Link
+          className="btn btn--ghost action-bar__btn"
+          to={`/products/${this.props.product.id}/edit`}
+        >
+          Edit
+        </Link>
       );
     }
 
-    return (
-      <div className="action-bar">
-        <div className="action-bar__inner">
-          <div>
-            <Link to="/products" className="action-bar__view-all">
-              View All Products
-            </Link>
-          </div>
-          {links}
-        </div>
-      </div>
-    );
+    return links;
   }
 }
 
