@@ -2,28 +2,28 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PriceBadge from "./priceBadge";
 
-class ProductCard extends Component {
-  render() {
-    const product = this.props.product;
+const ProductCard = props => {
+  const { product, appCurrency, exchangeRates } = props;
+  const { id, name, description, price } = product;
 
-    return (
-      <Link to={`/products/${product.id}`} className="product-card">
-        <div className="product-card__top">
-          <h2 className="product-card__heading">{product.name}</h2>
-          <div className="product-card__copy">{product.description}</div>
-        </div>
-        <div className="product-card__info">
-          <PriceBadge
-            price={product.price}
-            appCurrency={this.props.appCurrency}
-            exchangeRates={this.props.exchangeRates}
-            className="product-card__price"
-          />
-          <div className="product-card__id">Product ID: {product.id}</div>
-        </div>
-      </Link>
-    );
-  }
-}
+  return (
+    <Link to={`/products/${id}`} className="product-card">
+      <div className="product-card__top">
+        <h2 className="product-card__heading">{name}</h2>
+        <div className="product-card__copy">{description}</div>
+      </div>
+
+      <div className="product-card__info">
+        <PriceBadge
+          price={price}
+          appCurrency={appCurrency}
+          exchangeRates={exchangeRates}
+          className="product-card__price"
+        />
+        <div className="product-card__id">Product ID: {id}</div>
+      </div>
+    </Link>
+  );
+};
 
 export default ProductCard;
