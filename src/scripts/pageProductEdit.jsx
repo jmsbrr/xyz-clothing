@@ -19,18 +19,16 @@ class PageProductEdit extends Component {
       products
     } = props;
 
-    console.log(description);
-
     this.state = {
       product: {
-        id: id,
-        name: name,
-        description: description,
+        id,
+        name,
+        description,
         price: {
-          base: base,
-          amount: amount
+          base,
+          amount
         },
-        relatedProducts: relatedProducts
+        relatedProducts
       },
       existingProductIds: products.map(prod => prod.id.toString()),
       originalId: id,

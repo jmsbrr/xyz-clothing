@@ -30,10 +30,9 @@ class App extends Component {
     originalProductId,
     relatedProducts
   ) => {
-    let newProductState = this.state.products;
-    let updatedProduct = updatedProductData;
+    let newProductState = [...this.state.products];
 
-    updatedProduct.relatedProducts = relatedProducts;
+    updatedProductData.relatedProducts = relatedProducts;
 
     // Find product in state.products to update
     const indexToSplice = newProductState.findIndex(
@@ -55,7 +54,7 @@ class App extends Component {
     }
 
     // Update products
-    newProductState.splice(indexToSplice, 1, updatedProduct);
+    newProductState.splice(indexToSplice, 1, updatedProductData);
     this.setState({ products: [...newProductState], redirect: true });
   };
 
