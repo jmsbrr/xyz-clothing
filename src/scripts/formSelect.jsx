@@ -1,14 +1,7 @@
 import React from "react";
 import _ from "lodash";
 
-const FormInputText = ({
-  errors,
-  id,
-  label,
-  defaultValue,
-  onChange,
-  type = "text"
-}) => {
+const FormSelect = ({ errors, id, label, defaultValue, onChange, options }) => {
   let fieldInvalid;
   let errorMessage = null;
 
@@ -26,19 +19,22 @@ const FormInputText = ({
       <label className="form__label" htmlFor={id}>
         {label}:
       </label>
-      <input
-        className="form__input-text"
-        type="text"
-        defaultValue={defaultValue.toString()}
+      <select
+        className="form__select"
+        defaultValue={defaultValue}
         name={id}
         id={id}
-        onChange={event => {
-          onChange(event.target);
-        }}
-      />
+        onChange={event => onChange(event.target)}
+      >
+        {options.map(opt => (
+          <option value={opt} key={opt}>
+            {opt}
+          </option>
+        ))}
+      </select>
       {errorMessage}
     </div>
   );
 };
 
-export default FormInputText;
+export default FormSelect;

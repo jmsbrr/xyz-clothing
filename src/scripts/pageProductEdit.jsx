@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ActionBar from "./action-bar";
 import FormInputText from "./formInputText";
 import FormInputTextarea from "./formInputTextarea";
+import CheckboxTable from "./checkboxTable";
+import FormSelect from "./formSelect";
 import Joi from "@hapi/joi";
 import _ from "lodash";
 
@@ -75,7 +77,7 @@ class PageProductEdit extends Component {
             "string.pattern":
               "Price must only contain numbers + a single decimal point. e.g. 59.95"
           }),
-        base: Joi.any()
+        base: Joi.any().invalid("AUD")
       },
       relatedProducts: Joi.any()
     };
@@ -85,35 +87,36 @@ class PageProductEdit extends Component {
     window.scrollTo(0, 0);
   }
 
-  handleCheckboxChange(event, arrIndex) {
-    let relatedProducts = [...this.state.relatedProducts];
-    relatedProducts[arrIndex].active = !relatedProducts[arrIndex].active;
-    this.setState({ relatedProducts: relatedProducts });
-  }
-
   checkValidity(schema, value) {
     const options = { abortEarly: false };
     const { error } = Joi.object(schema).validate(value, options);
     return { valid: error === undefined, errors: error };
   }
 
-  handleChange({ name, value }) {
+  handleCheckboxChange = (event, arrIndex) => {
+    let relatedProducts = [...this.state.relatedProducts];
+    relatedProducts[arrIndex].active = !relatedProducts[arrIndex].active;
+    this.setState({ relatedProducts: relatedProducts });
+  };
+
+  handleChange = ({ name, value }) => {
     const change = { [name]: value };
     const schema = { [name]: _.get(this.schema, name) };
     const field = this.checkValidity(schema, change);
     const product = { ...this.state.product };
-    const errors = { ...this.state.errors };
+    let errors = { ...this.state.errors };
 
     _.set(product, name, value);
 
     if (field.valid) {
       _.unset(errors, name);
+      errors = _.omitBy(errors, _.isEmpty);
     } else {
       _.set(errors, name, field.errors.message);
     }
 
     this.setState({ product, errors });
-  }
+  };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -140,28 +143,12 @@ class PageProductEdit extends Component {
 
   render() {
     const { product, exchangeRates } = this.props;
-    const relatedProductsList = this.state.relatedProducts.map(
-      (prod, index) => (
-        <label
-          className="related-products-table__row"
-          htmlFor={`check-${prod.id}`}
-          key={prod.id}
-        >
-          <span className="related-products-table__col">
-            <input
-              className="related-products-table__col"
-              type="checkbox"
-              name={prod.id}
-              id={`check-${prod.id}`}
-              checked={this.state.relatedProducts[index].active}
-              onChange={event => this.handleCheckboxChange(event, index)}
-            />
-          </span>
-          <span className="related-products-table__col">{prod.id}</span>
-          <span className="related-products-table__col">{prod.name}</span>
-        </label>
-      )
-    );
+    const tableColumns = ["ID", "Product Name"];
+    const tableData = this.state.relatedProducts.map((prod, index) => ({
+      checked: this.state.relatedProducts[index].active,
+      id: prod.id,
+      columns: [prod.id, prod.name]
+    }));
 
     return (
       <React.Fragment>
@@ -177,8 +164,7 @@ class PageProductEdit extends Component {
               label="Product ID"
               id="id"
               defaultValue={this.state.product.id}
-              name="id"
-              onInputChange={event => this.handleChange(event.target)}
+              onChange={this.handleChange}
               errors={this.state.errors}
             />
 
@@ -186,62 +172,42 @@ class PageProductEdit extends Component {
               label="Product Name"
               id="name"
               defaultValue={this.state.product.name}
-              name="name"
-              onInputChange={event => this.handleChange(event.target)}
+              onChange={this.handleChange}
               errors={this.state.errors}
             />
 
-            <FormInputTextarea
+            <FormInputText
               label="Description"
               id="description"
+              type="textarea"
               defaultValue={this.state.product.description}
-              name="description"
-              onInputChange={event => this.handleChange(event.target)}
+              onChange={this.handleChange}
               errors={this.state.errors}
             />
 
-            <div className="form__row">
-              <label className="form__label" htmlFor="price.base">
-                Base Currency:
-              </label>
-              <select
-                className="currency-selector__select"
-                defaultValue={this.state.product.price.base}
-                name="price.base"
-                id="price.base"
-                onChange={event => this.handleChange(event.target)}
-              >
-                {exchangeRates.map(opt => (
-                  <option value={opt.base} key={opt.base}>
-                    {opt.base}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <FormSelect
+              label="Base Currency"
+              id="price.base"
+              defaultValue={this.state.product.price.base}
+              onChange={this.handleChange}
+              options={exchangeRates.map(rate => rate.base)}
+              errors={this.state.errors}
+            />
 
             <FormInputText
               label="Price"
               id="price.amount"
               defaultValue={this.state.product.price.amount}
-              name="price.amount"
-              onInputChange={event => this.handleChange(event.target)}
+              onChange={this.handleChange}
               errors={this.state.errors}
             />
 
-            <div className="form__row">
-              <div className="form__label">Related Products:</div>
-              <div className="related-products-table">
-                <div className="related-products-table__header">
-                  <div className="related-products-table__col"></div>
-                  <div className="related-products-table__col">ID</div>
-                  <div className="related-products-table__col">
-                    Product Name
-                  </div>
-                </div>
-
-                {relatedProductsList}
-              </div>
-            </div>
+            <CheckboxTable
+              tableName="Related Products"
+              columns={tableColumns}
+              data={tableData}
+              onChange={this.handleCheckboxChange}
+            />
           </form>
         </div>
       </React.Fragment>

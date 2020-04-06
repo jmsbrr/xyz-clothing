@@ -19,12 +19,22 @@
   width: 100%;
 
   .field-error & {
+    background: lighten($color-error, 56);
     border: 1px solid $color-error;
   }
 }
 
 .form__input-textarea {
   min-height: 100px;
+}
+
+.form__select {
+  font-size: 1.125rem;
+
+  .field-error & {
+    background: lighten($color-error, 56);
+    border: 1px solid $color-error;
+  }
 }
 
 .form__validation-message {
