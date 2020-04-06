@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PageDashboard from "./pageDashboard";
 import PageProducts from "./pageProducts";
 import PageProductDetail from "./pageProductDetail";
@@ -16,8 +16,7 @@ class App extends Component {
     this.state = {
       appCurrency: "AUD",
       products: productsData,
-      exchangeRates: exchangeRates,
-      redirect: false
+      exchangeRates: exchangeRates
     };
   }
 
@@ -28,7 +27,8 @@ class App extends Component {
   handleProductUpdate = (
     updatedProductData,
     originalProductId,
-    relatedProducts
+    relatedProducts,
+    history
   ) => {
     let newProductState = [...this.state.products];
 
@@ -55,11 +55,9 @@ class App extends Component {
 
     // Update products
     newProductState.splice(indexToSplice, 1, updatedProductData);
-    this.setState({ products: [...newProductState], redirect: true });
-  };
+    this.setState({ products: [...newProductState] });
 
-  resetRedirect = () => {
-    this.setState({ redirect: false });
+    if (history) history.replace(`/products/${updatedProductData.id}`);
   };
 
   render() {
@@ -73,48 +71,45 @@ class App extends Component {
           />
 
           <div className="main">
-            <Route path="/" exact>
-              <PageDashboard />
-            </Route>
-
-            <Route path="/products" exact>
-              <PageProducts
-                appCurrency={this.state.appCurrency}
-                exchangeRates={this.state.exchangeRates}
-                products={this.state.products}
-                resetRedirect={this.resetRedirect}
-              />
-            </Route>
-
-            <Route
-              path="/products/:id"
-              exact
-              render={({ match }) => (
-                <PageProductDetail
+            <Switch>
+              <Route
+                path="/products/:id/edit"
+                render={({ match, location, history }) => (
+                  <PageProductEdit
+                    products={this.state.products}
+                    product={this.state.products.find(
+                      prod => prod.id.toString() === match.params.id
+                    )}
+                    onProductUpdate={this.handleProductUpdate}
+                    exchangeRates={this.state.exchangeRates}
+                    history={history}
+                  />
+                )}
+              ></Route>
+              <Route
+                path="/products/:id"
+                render={({ match }) => (
+                  <PageProductDetail
+                    appCurrency={this.state.appCurrency}
+                    exchangeRates={this.state.exchangeRates}
+                    products={this.state.products}
+                    product={this.state.products.find(
+                      prod => prod.id.toString() === match.params.id
+                    )}
+                  />
+                )}
+              ></Route>
+              <Route path="/products">
+                <PageProducts
                   appCurrency={this.state.appCurrency}
                   exchangeRates={this.state.exchangeRates}
                   products={this.state.products}
-                  product={this.state.products.find(
-                    prod => prod.id.toString() === match.params.id
-                  )}
                 />
-              )}
-            ></Route>
-
-            <Route
-              path="/products/:id/edit"
-              render={({ match }) => (
-                <PageProductEdit
-                  products={this.state.products}
-                  product={this.state.products.find(
-                    prod => prod.id.toString() === match.params.id
-                  )}
-                  onProductUpdate={this.handleProductUpdate}
-                  exchangeRates={this.state.exchangeRates}
-                  redirect={this.state.redirect}
-                />
-              )}
-            ></Route>
+              </Route>
+              <Route path="/">
+                <PageDashboard />
+              </Route>
+            </Switch>
           </div>
         </React.Fragment>
       </Router>

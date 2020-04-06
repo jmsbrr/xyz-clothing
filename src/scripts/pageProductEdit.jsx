@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import ActionBar from "./action-bar";
 import FormInputText from "./formInputText";
 import FormInputTextarea from "./formInputTextarea";
+import Joi from "@hapi/joi";
+import _ from "lodash";
 
 class PageProductEdit extends Component {
   constructor(props) {
@@ -21,106 +22,121 @@ class PageProductEdit extends Component {
 
     this.state = {
       product: {
-        id,
+        id: id.toString(),
         name,
         description,
         price: {
           base,
-          amount
+          amount: amount.toString()
         },
         relatedProducts
       },
-      existingProductIds: products.map(prod => prod.id.toString()),
+      existingProductIds: products
+        .filter(prod => prod.id !== id)
+        .map(prod => prod.id.toString()),
       originalId: id,
       relatedProducts: [],
-      validationErrors: {},
-      formValid: true
+      errors: {}
     };
 
-    this.state.relatedProducts = products.map(prod => ({
-      id: prod.id,
-      name: prod.name,
-      active: relatedProducts.includes(prod.id)
-    }));
+    // Generate a model for all products
+    // for the related products table
+    this.state.relatedProducts = products
+      .filter(prod => prod.id !== id)
+      .map(prod => ({
+        id: prod.id,
+        name: prod.name,
+        active: relatedProducts.includes(prod.id)
+      }));
 
-    const indexInProducts = this.state.relatedProducts.findIndex(
-      prod => prod.id === id
-    );
-
-    this.state.relatedProducts.splice(indexInProducts, 1);
+    this.schema = {
+      id: Joi.string()
+        .alphanum()
+        .required()
+        .invalid(...this.state.existingProductIds)
+        .messages({
+          "string.alphanum": "ID must only contain letters and/or numbers",
+          "string.invalid": "ID must be unique",
+          "any.required": "ID is required"
+        }),
+      name: Joi.string()
+        .required()
+        .min(2)
+        .messages({
+          "string.min": "Name be at least 2 characters long"
+        }),
+      description: Joi.any(),
+      price: {
+        amount: Joi.string()
+          .required()
+          .pattern(/^(\d+?)(\.\d{1,2})?$/)
+          .messages({
+            "any.required": "Price is required",
+            "string.pattern":
+              "Price must only contain numbers + a single decimal point. e.g. 59.95"
+          }),
+        base: Joi.any()
+      },
+      relatedProducts: Joi.any()
+    };
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
-  isValid(name, value) {
-    const notEmpty = value.length > 0;
-    const isCurrency = /^(\d+?)(\.\d{1,2})?$/;
-
-    switch (name) {
-      case "id":
-        return notEmpty && !this.state.existingProductIds.includes(value);
-
-      case "name":
-        return value.length > 2;
-
-      case "amount":
-        return notEmpty && isCurrency.test(value);
-
-      default:
-        return true;
-    }
-  }
-
-  handleInputChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-    let stateCopy = { ...this.state };
-
-    if (this.isValid(name, value)) {
-      // If field is valid, update local state with new field value.
-      if (name === "base" || name === "amount") {
-        stateCopy.product.price[name] = value;
-      } else {
-        stateCopy.product[name] = value;
-      }
-
-      // Delete previous validation errors.
-      delete stateCopy.validationErrors[name];
-
-      stateCopy.formValid =
-        Object.keys(stateCopy.validationErrors).length === 0;
-      this.setState({ ...stateCopy });
-    } else {
-      // If field is invalid, display error messages.
-      let validationErrors = { ...this.state.validationErrors };
-
-      if (name === "id") {
-        validationErrors[name] =
-          "Product ID must be unique and at least 1 character long.";
-      } else if (name === "name") {
-        validationErrors[name] =
-          "Product Name must be at least 3 characters long.";
-      } else if (name === "amount") {
-        validationErrors[name] =
-          "Price must only contain numbers + a single decimal point. e.g. 59.95";
-      } else {
-        validationErrors[name] = "Sorry, that value is invalid for this field.";
-      }
-
-      this.setState({
-        validationErrors,
-        formValid: Object.keys(validationErrors).length === 0
-      });
-    }
-  }
-
   handleCheckboxChange(event, arrIndex) {
-    let relatedProducts = this.state.relatedProducts;
+    let relatedProducts = [...this.state.relatedProducts];
     relatedProducts[arrIndex].active = !relatedProducts[arrIndex].active;
-    this.setState({ ...relatedProducts });
+    this.setState({ relatedProducts: relatedProducts });
   }
+
+  checkValidity(schema, value) {
+    const options = { abortEarly: false };
+    const { error } = Joi.object(schema).validate(value, options);
+    return { valid: error === undefined, errors: error };
+  }
+
+  handleChange({ name, value }) {
+    const change = { [name]: value };
+    const schema = { [name]: _.get(this.schema, name) };
+    const field = this.checkValidity(schema, change);
+    const product = { ...this.state.product };
+    const errors = { ...this.state.errors };
+
+    _.set(product, name, value);
+
+    if (field.valid) {
+      _.unset(errors, name);
+    } else {
+      _.set(errors, name, field.errors.message);
+    }
+
+    this.setState({ product, errors });
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const form = this.checkValidity(this.schema, this.state.product);
+    const errors = { ...this.state.errors };
+
+    if (form.valid) {
+      this.props.onProductUpdate(
+        this.state.product,
+        this.state.originalId,
+        this.state.relatedProducts
+          .filter(prod => prod.active === true)
+          .map(prod => prod.id),
+        this.props.history
+      );
+    } else {
+      for (let error of form.errors.details) {
+        errors[error.path[0]] = error.message;
+      }
+
+      this.setState({ errors });
+    }
+  };
 
   render() {
     const { product, exchangeRates } = this.props;
@@ -147,40 +163,23 @@ class PageProductEdit extends Component {
       )
     );
 
-    if (this.props.redirect) {
-      return <Redirect to="/products/" />;
-    }
-
     return (
       <React.Fragment>
         <div className="product-detail">
-          <form
-            className="form"
-            onSubmit={event => {
-              event.preventDefault();
-              this.props.onProductUpdate(
-                this.state.product,
-                this.state.originalId,
-                this.state.relatedProducts
-                  .filter(prod => prod.active === true)
-                  .map(prod => prod.id)
-              );
-            }}
-          >
-            {/* ActionBar inside form for submit button positioning. */}
-            <ActionBar
-              product={product}
-              mode="edit"
-              formValid={this.state.formValid}
-            />
+          <ActionBar
+            product={product}
+            mode="edit"
+            formValid={Object.keys(this.state.errors).length === 0}
+          />
 
+          <form id="product-edit" className="form" onSubmit={this.handleSubmit}>
             <FormInputText
               label="Product ID"
               id="id"
               defaultValue={this.state.product.id}
               name="id"
-              onInputChange={event => this.handleInputChange(event)}
-              validationErrors={this.state.validationErrors}
+              onInputChange={event => this.handleChange(event.target)}
+              errors={this.state.errors}
             />
 
             <FormInputText
@@ -188,8 +187,8 @@ class PageProductEdit extends Component {
               id="name"
               defaultValue={this.state.product.name}
               name="name"
-              onInputChange={event => this.handleInputChange(event)}
-              validationErrors={this.state.validationErrors}
+              onInputChange={event => this.handleChange(event.target)}
+              errors={this.state.errors}
             />
 
             <FormInputTextarea
@@ -197,20 +196,20 @@ class PageProductEdit extends Component {
               id="description"
               defaultValue={this.state.product.description}
               name="description"
-              onInputChange={event => this.handleInputChange(event)}
-              validationErrors={this.state.validationErrors}
+              onInputChange={event => this.handleChange(event.target)}
+              errors={this.state.errors}
             />
 
             <div className="form__row">
-              <label className="form__label" htmlFor="base">
+              <label className="form__label" htmlFor="price.base">
                 Base Currency:
               </label>
               <select
                 className="currency-selector__select"
                 defaultValue={this.state.product.price.base}
-                name="base"
-                id="base"
-                onChange={event => this.handleInputChange(event)}
+                name="price.base"
+                id="price.base"
+                onChange={event => this.handleChange(event.target)}
               >
                 {exchangeRates.map(opt => (
                   <option value={opt.base} key={opt.base}>
@@ -222,11 +221,11 @@ class PageProductEdit extends Component {
 
             <FormInputText
               label="Price"
-              id="amount"
+              id="price.amount"
               defaultValue={this.state.product.price.amount}
-              name="amount"
-              onInputChange={event => this.handleInputChange(event)}
-              validationErrors={this.state.validationErrors}
+              name="price.amount"
+              onInputChange={event => this.handleChange(event.target)}
+              errors={this.state.errors}
             />
 
             <div className="form__row">

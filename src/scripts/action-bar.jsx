@@ -26,6 +26,7 @@ const getLinks = ({ mode, formValid, product: { id } }) => {
           disabled={!formValid}
           className="btn btn--accent action-bar__btn form__submit"
           type="submit"
+          form="product-edit"
           value="Save"
         />
         <Link

@@ -1,7 +1,8 @@
 import React from "react";
+import _ from "lodash";
 
 const FormInputText = ({
-  validationErrors,
+  errors,
   id,
   label,
   defaultValue,
@@ -11,19 +12,17 @@ const FormInputText = ({
   let fieldInvalid;
   let errorMessage = null;
 
-  if (validationErrors !== undefined) {
-    if (validationErrors.hasOwnProperty(id)) {
-      fieldInvalid = true;
-      errorMessage = (
-        <div className="form__validation-message">{validationErrors[id]}</div>
-      );
-    } else {
-      fieldInvalid = false;
-    }
+  if (_.has(errors, id)) {
+    fieldInvalid = true;
+    errorMessage = (
+      <div className="form__validation-message">{_.get(errors, id)}</div>
+    );
+  } else {
+    fieldInvalid = false;
   }
 
   return (
-    <div className={`form__row ${fieldInvalid ? "field-error" : ""} `}>
+    <div className={`form__row ${fieldInvalid && "field-error"} `}>
       <label className="form__label" htmlFor={id}>
         {label}:
       </label>
