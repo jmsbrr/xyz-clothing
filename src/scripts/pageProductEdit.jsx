@@ -11,27 +11,18 @@ class PageProductEdit extends Component {
   constructor(props) {
     super(props);
 
-    const {
-      product: {
-        id,
-        name,
-        description,
-        price: { base, amount },
-        relatedProducts
-      },
-      products
-    } = props;
+    const { product, products } = props;
 
     this.state = {
       product: {
-        id: id.toString(),
-        name,
-        description,
+        id: product.id.toString(),
+        name: product.name,
+        description: product.description,
         price: {
-          base,
-          amount: amount.toString()
+          base: product.price.base,
+          amount: product.price.amount.toString()
         },
-        relatedProducts
+        relatedProducts: product.relatedProducts
       },
       existingProductIds: products
         .filter(prod => prod.id !== id)
@@ -41,8 +32,7 @@ class PageProductEdit extends Component {
       errors: {}
     };
 
-    // Generate a model for all products
-    // for the related products table
+    // Build a model for the related products table
     this.state.relatedProducts = products
       .filter(prod => prod.id !== id)
       .map(prod => ({
@@ -51,6 +41,7 @@ class PageProductEdit extends Component {
         active: relatedProducts.includes(prod.id)
       }));
 
+    // Validation Schema
     this.schema = {
       id: Joi.string()
         .alphanum()
