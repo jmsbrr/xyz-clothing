@@ -25,20 +25,20 @@ class PageProductEdit extends Component {
         relatedProducts: product.relatedProducts
       },
       existingProductIds: products
-        .filter(prod => prod.id !== id)
+        .filter(prod => prod.id !== product.id)
         .map(prod => prod.id.toString()),
-      originalId: id,
+      originalId: product.id,
       relatedProducts: [],
       errors: {}
     };
 
     // Build a model for the related products table
     this.state.relatedProducts = products
-      .filter(prod => prod.id !== id)
+      .filter(prod => prod.id !== product.id)
       .map(prod => ({
         id: prod.id,
         name: prod.name,
-        active: relatedProducts.includes(prod.id)
+        active: product.relatedProducts.includes(prod.id)
       }));
 
     // Validation Schema
