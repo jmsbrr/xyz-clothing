@@ -16,14 +16,14 @@ const ActionBar = props => {
   );
 };
 
-const getLinks = ({ mode, formValid, product: { id } }) => {
+const getLinks = ({ mode, formError, product: { id } }) => {
   let links;
 
   if (mode === "edit") {
     links = (
       <React.Fragment>
         <input
-          disabled={!formValid}
+          disabled={formError}
           className="btn btn--accent action-bar__btn form__submit"
           type="submit"
           form="product-edit"

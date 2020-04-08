@@ -24,30 +24,22 @@ class App extends Component {
     this.setState({ appCurrency: userSetCurrency });
   };
 
-  handleProductUpdate = (
-    updatedProductData,
-    originalProductId,
-    relatedProducts,
-    history
-  ) => {
+  handleProductUpdate = (updatedProductData, originalId, history) => {
     let newProductState = [...this.state.products];
-
-    updatedProductData.relatedProducts = relatedProducts;
 
     // Find product in state.products to update
     const indexToSplice = newProductState.findIndex(
-      prod => prod.id === originalProductId
+      prod => prod.id === originalId
     );
 
     // The ID of this product has been modified.
-    // Let's update other product's references to the old ID
-    if (originalProductId !== updatedProductData.id) {
+    // We need to update references to the old ID.
+    if (originalId !== updatedProductData.id) {
       for (let prod of newProductState) {
         let relatedProducts = prod.relatedProducts;
 
-        if (relatedProducts.includes(originalProductId)) {
-          const index = relatedProducts.findIndex(p => p === originalProductId);
-
+        const index = relatedProducts.indexOf(originalId);
+        if (index > -1) {
           relatedProducts[index] = updatedProductData.id;
         }
       }
@@ -55,6 +47,7 @@ class App extends Component {
 
     // Update products
     newProductState.splice(indexToSplice, 1, updatedProductData);
+    console.log(newProductState);
     this.setState({ products: [...newProductState] });
 
     if (history) history.replace(`/products/${updatedProductData.id}`);

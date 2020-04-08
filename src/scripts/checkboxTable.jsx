@@ -12,10 +12,10 @@ const renderRows = (data, onChange) => {
           <input
             className="checkbox-table__col"
             type="checkbox"
-            name={item.id}
+            name={item.name}
             id={`check-${item.id}`}
             checked={item.checked}
-            onChange={event => onChange(event, index)}
+            onChange={() => onChange(item.name, item.path)}
           />
         </span>
 
