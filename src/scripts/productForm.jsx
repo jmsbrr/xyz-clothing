@@ -34,8 +34,6 @@ class ProductForm extends Form {
       .filter(prod => prod.id !== product.id)
       .map(prod => prod.id);
 
-    console.log(this.illegalProductIds);
-
     this.schema = {
       id: Joi.number()
         .required()
@@ -78,7 +76,10 @@ class ProductForm extends Form {
   submitTheForm() {
     const data = { ...this.state.data };
 
-    // Tidy up the data to match the original state
+    // Parse the product price
+    data.price.amount = parseFloat(data.price.amount);
+
+    // Restore the structure of related products
     data.relatedProducts = data.relatedProducts
       .filter(prod => prod.active === true)
       .map(prod => prod.id);
