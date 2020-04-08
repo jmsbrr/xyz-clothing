@@ -16,7 +16,11 @@ const ActionBar = props => {
   );
 };
 
-const getLinks = ({ mode, formError, product: { id } }) => {
+function getCancelLink(id) {
+  return id === null ? "/products/" : `/products/${id}/`;
+}
+
+const getLinks = ({ mode, formError, product: { id = "" } }) => {
   let links;
 
   if (mode === "edit") {
@@ -29,10 +33,7 @@ const getLinks = ({ mode, formError, product: { id } }) => {
           form="product-edit"
           value="Save"
         />
-        <Link
-          className="btn btn--ghost action-bar__btn"
-          to={`/products/${id}/`}
-        >
+        <Link className="btn btn--ghost action-bar__btn" to={getCancelLink(id)}>
           Cancel
         </Link>
       </React.Fragment>

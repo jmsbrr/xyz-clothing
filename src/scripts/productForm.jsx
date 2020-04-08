@@ -34,6 +34,8 @@ class ProductForm extends Form {
       .filter(prod => prod.id !== product.id)
       .map(prod => prod.id);
 
+    console.log(this.illegalProductIds);
+
     this.schema = {
       id: Joi.number()
         .required()
@@ -98,7 +100,7 @@ class ProductForm extends Form {
 
     return (
       <form id="product-edit" className="form" onSubmit={this.handleSubmit}>
-        {this.renderTextInput("Product ID", "id", data.id)}
+        {this.renderTextInput("Product ID", "id", data.id, "number")}
         {this.renderTextInput("Product name", "name", data.name)}
         {this.renderTextInput(
           "Description",

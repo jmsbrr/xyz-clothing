@@ -4,6 +4,7 @@ import PageDashboard from "./pageDashboard";
 import PageProducts from "./pageProducts";
 import PageProductDetail from "./pageProductDetail";
 import PageProductEdit from "./pageProductEdit";
+import PageProductAdd from "./pageProductAdd";
 import Sidebar from "./sidebar";
 import productsData from "../data/products.json";
 import exchangeRates from "../data/exchange_rates.json";
@@ -24,34 +25,40 @@ class App extends Component {
     this.setState({ appCurrency: userSetCurrency });
   };
 
-  handleProductUpdate = (updatedProductData, originalId, history) => {
-    let newProductState = [...this.state.products];
+  handleProductUpdate = (updatedProduct, originalId, history) => {
+    let products = [...this.state.products];
+    let indexToSplice;
 
-    // Find product in state.products to update
-    const indexToSplice = newProductState.findIndex(
-      prod => prod.id === originalId
-    );
-
-    // The ID of this product has been modified.
-    // We need to update references to the old ID.
-    if (originalId !== updatedProductData.id) {
-      for (let prod of newProductState) {
-        let relatedProducts = prod.relatedProducts;
-
-        const index = relatedProducts.indexOf(originalId);
-        if (index > -1) {
-          relatedProducts[index] = updatedProductData.id;
-        }
-      }
+    // This is a new product, assign it a new index.
+    if (originalId === null) {
+      indexToSplice = products.length + 1;
+    } else {
+      // Find this existing products index in state.products.
+      indexToSplice = products.findIndex(prod => prod.id === originalId);
     }
 
-    // Update products
-    newProductState.splice(indexToSplice, 1, updatedProductData);
-    console.log(newProductState);
-    this.setState({ products: [...newProductState] });
+    // The ID for this updated product has been modified.
+    // We need to update references to the old ID.
+    if (originalId !== null && originalId !== updatedProduct.id) {
+      this.updateRelatedProducts(products, updatedProduct, originalId);
+    }
 
-    if (history) history.replace(`/products/${updatedProductData.id}`);
+    products.splice(indexToSplice, 1, updatedProduct);
+    this.setState({ products: [...products] });
+
+    if (history) history.replace(`/products/${updatedProduct.id}`);
   };
+
+  updateRelatedProducts(products, updatedProduct, originalId) {
+    for (let prod of products) {
+      const relatedProducts = prod.relatedProducts;
+      const index = relatedProducts.indexOf(originalId);
+
+      if (index > -1) {
+        relatedProducts[index] = updatedProduct.id;
+      }
+    }
+  }
 
   render() {
     return (
@@ -73,6 +80,17 @@ class App extends Component {
                     product={this.state.products.find(
                       prod => prod.id.toString() === match.params.id
                     )}
+                    onProductUpdate={this.handleProductUpdate}
+                    exchangeRates={this.state.exchangeRates}
+                    history={history}
+                  />
+                )}
+              ></Route>
+              <Route
+                path="/products/add"
+                render={({ match, location, history }) => (
+                  <PageProductAdd
+                    products={this.state.products}
                     onProductUpdate={this.handleProductUpdate}
                     exchangeRates={this.state.exchangeRates}
                     history={history}

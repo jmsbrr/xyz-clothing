@@ -37,13 +37,15 @@ class Form extends Component {
     this.handleChange(obj);
   };
 
-  handleChange = ({ name, value, schemaPath = null }) => {
+  handleChange = ({ name, value, type, schemaPath = null }) => {
     const pathToSchema = schemaPath ? schemaPath : name;
     const updatedValue = { [name]: value };
     const fieldSchema = { [name]: _.get(this.schema, pathToSchema) };
     const field = this.checkValidity(fieldSchema, updatedValue);
     const data = { ...this.state.data };
     let errors = { ...this.state.errors };
+
+    if (type === "number" && value !== "") value = parseInt(value);
 
     _.set(data, name, value);
 
