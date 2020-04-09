@@ -33,7 +33,10 @@ const getLinks = ({ mode, formError, product: { id = "" } }) => {
           form="product-edit"
           value="Save"
         />
-        <Link className="btn btn--ghost action-bar__btn" to={getCancelLink(id)}>
+        <Link
+          className="btn btn--ghost-white action-bar__btn"
+          to={getCancelLink(id)}
+        >
           Cancel
         </Link>
       </React.Fragment>
@@ -41,7 +44,7 @@ const getLinks = ({ mode, formError, product: { id = "" } }) => {
   } else {
     links = (
       <Link
-        className="btn btn--ghost action-bar__btn"
+        className="btn btn--ghost-white action-bar__btn"
         to={`/products/${id}/edit`}
       >
         Edit

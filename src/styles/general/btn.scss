@@ -1,4 +1,5 @@
 .btn {
+  appearance: none;
   background: transparent;
   border: 1px solid transparent;
   border-radius: $global-radius;
@@ -20,6 +21,16 @@
   }
 }
 
+.btn--primary {
+  background: $color-primary;
+  color: #fff;
+
+  &:hover,
+  &:focus {
+    background-color: darken($color-primary, 4%);
+  }
+}
+
 .btn--accent {
   background: $color-accent;
   color: $color-primary;
@@ -33,6 +44,16 @@
 $darkerPrimary: darken($color-primary, 10%);
 
 .btn--ghost {
+  border-color: $color-primary;
+  color: $color-primary;
+
+  &:hover,
+  &:focus {
+    background-color: #f7f7f7;
+  }
+}
+
+.btn--ghost-white {
   background: transparent;
   border-color: #fff;
   color: #fff;
