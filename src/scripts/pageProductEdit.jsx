@@ -14,11 +14,13 @@ class PageProductEdit extends Component {
   };
 
   render() {
+    const { product = {} } = this.props;
+
     return (
       <React.Fragment>
         <div className="product-detail">
           <ActionBar
-            product={this.props.product}
+            product={product}
             mode="edit"
             formError={this.state.formError}
           />

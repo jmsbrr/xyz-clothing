@@ -1,24 +1,41 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
+import axios from "axios";
 import PageDashboard from "./pageDashboard";
+import PageNotFound from "./pageNotFound";
 import PageProducts from "./pageProducts";
 import PageProductDetail from "./pageProductDetail";
 import PageProductEdit from "./pageProductEdit";
 import PageProductAdd from "./pageProductAdd";
 import Sidebar from "./sidebar";
-import productsData from "../data/products.json";
-import exchangeRates from "../data/exchange_rates.json";
 import "../styles/app.scss";
+
+const http = axios.create({
+  baseURL: "//localhost:3000/data"
+});
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      appCurrency: "AUD",
-      products: productsData,
-      exchangeRates: exchangeRates
+      products: [],
+      exchangeRates: [],
+      appCurrency: null
     };
+  }
+
+  async componentDidMount() {
+    const { data: products } = await http.get("/products.json");
+    this.setState({ products });
+
+    const { data: exchangeRates } = await http.get("/exchange_rates.json");
+    this.setState({ exchangeRates, appCurrency: "AUD" });
   }
 
   handleCurrencyChange = userSetCurrency => {
@@ -73,20 +90,6 @@ class App extends Component {
           <div className="main">
             <Switch>
               <Route
-                path="/products/:id/edit"
-                render={({ match, location, history }) => (
-                  <PageProductEdit
-                    products={this.state.products}
-                    product={this.state.products.find(
-                      prod => prod.id.toString() === match.params.id
-                    )}
-                    onProductUpdate={this.handleProductUpdate}
-                    exchangeRates={this.state.exchangeRates}
-                    history={history}
-                  />
-                )}
-              ></Route>
-              <Route
                 path="/products/add"
                 render={({ match, location, history }) => (
                   <PageProductAdd
@@ -97,19 +100,46 @@ class App extends Component {
                   />
                 )}
               ></Route>
+
               <Route
-                path="/products/:id"
-                render={({ match }) => (
-                  <PageProductDetail
-                    appCurrency={this.state.appCurrency}
-                    exchangeRates={this.state.exchangeRates}
-                    products={this.state.products}
-                    product={this.state.products.find(
-                      prod => prod.id.toString() === match.params.id
-                    )}
-                  />
-                )}
+                path="/products/:id/"
+                render={({ match, location, history }) => {
+                  const product = this.state.products.find(
+                    prod => prod.id.toString() === match.params.id
+                  );
+
+                  // That product doesn't exist – redirect the user.
+                  if (this.state.products.length > 0 && product === undefined) {
+                    return <Redirect to="/not-found" />;
+                  }
+
+                  return (
+                    <Switch>
+                      <Route path="/products/:id/edit">
+                        <PageProductEdit
+                          products={this.state.products}
+                          product={this.state.products.find(
+                            prod => prod.id.toString() === match.params.id
+                          )}
+                          onProductUpdate={this.handleProductUpdate}
+                          exchangeRates={this.state.exchangeRates}
+                          history={history}
+                        />
+                      </Route>
+
+                      <Route path="/products/:id/">
+                        <PageProductDetail
+                          appCurrency={this.state.appCurrency}
+                          exchangeRates={this.state.exchangeRates}
+                          products={this.state.products}
+                          product={product}
+                        />
+                      </Route>
+                    </Switch>
+                  );
+                }}
               ></Route>
+
               <Route path="/products">
                 <PageProducts
                   appCurrency={this.state.appCurrency}
@@ -117,9 +147,13 @@ class App extends Component {
                   products={this.state.products}
                 />
               </Route>
-              <Route path="/">
+              <Route path="/not-found">
+                <PageNotFound />
+              </Route>
+              <Route exact path="/">
                 <PageDashboard />
               </Route>
+              <Redirect to="/not-found" />
             </Switch>
           </div>
         </React.Fragment>

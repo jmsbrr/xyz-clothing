@@ -1,37 +1,40 @@
 import React from "react";
 import CheckboxTable from "./checkboxTable";
 import Form from "./common/form";
+import Skeleton from "./skeletons/skeleton";
 import Joi from "@hapi/joi";
 
 class ProductForm extends Form {
-  constructor(props) {
-    super(props);
+  init(props) {
+    const {
+      product: { relatedProducts, name, id, price, description },
+      products = []
+    } = props;
 
-    const { product, products } = props;
+    if (products.length === 0) return;
 
-    this.state = {
+    this.setState({
       data: {
-        id: product.id,
-        name: product.name,
-        description: product.description,
+        id: id,
+        name: name,
+        description: description,
         price: {
-          base: product.price.base,
-          amount: product.price.amount.toString()
+          base: price.base,
+          amount: price.amount.toString()
         },
         relatedProducts: products
-          .filter(prod => prod.id !== product.id)
+          .filter(prod => prod.id !== id)
           .map(prod => ({
             id: prod.id,
             name: prod.name,
-            active: product.relatedProducts.includes(prod.id)
+            active: relatedProducts.includes(prod.id)
           }))
-      },
-      errors: {}
-    };
+      }
+    });
 
-    this.originalId = product.id;
+    this.originalId = id;
     this.illegalProductIds = products
-      .filter(prod => prod.id !== product.id)
+      .filter(prod => prod.id !== id)
       .map(prod => prod.id);
 
     this.schema = {
@@ -65,8 +68,20 @@ class ProductForm extends Form {
     };
   }
 
+  checkComponentHasData(props) {
+    const { data } = this.state;
+    if (props.products.length > 0 && data.relatedProducts === undefined) {
+      this.init(props);
+    }
+  }
+
+  componentDidMount() {
+    this.checkComponentHasData(this.props);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.errors !== this.state.errors) this.raiseFormStatus();
+    this.checkComponentHasData(prevProps);
   }
 
   raiseFormStatus = () => {
@@ -89,6 +104,10 @@ class ProductForm extends Form {
 
   render() {
     const { data } = this.state;
+
+    if (data.id === undefined) {
+      return <Skeleton />;
+    }
 
     const tableColumns = ["ID", "Product Name"];
     const tableData = data.relatedProducts.map((prod, index) => ({

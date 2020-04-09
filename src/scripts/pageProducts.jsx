@@ -19,9 +19,17 @@ class PageProducts extends Component {
     window.scrollTo(0, 0);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.itemCount === 0 && prevProps.products.length > 0) {
+      this.setState({ itemCount: prevProps.products.length });
+    }
+  }
+
   render() {
     const { itemCount, currentPage, pageSize } = this.state;
     const { products, appCurrency, exchangeRates } = this.props;
+
+    // Filter and sort before paginating
     const listingItems = paginate(products, currentPage, pageSize);
 
     return (

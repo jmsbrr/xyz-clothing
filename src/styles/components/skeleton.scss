@@ -1,0 +1,28 @@
+.skeleton {
+}
+
+@keyframes fade {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.skeleton__row {
+  animation: fade 2s ease infinite;
+  background: linear-gradient(-90deg, #ddd 0%, #f7f7f7 100%);
+  background-size: 200%;
+  display: block;
+  height: 24px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.skeleton__row:last-child {
+  width: 80%;
+}

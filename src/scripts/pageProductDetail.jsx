@@ -2,11 +2,14 @@ import React from "react";
 import PriceBadge from "./priceBadge";
 import ProductListing from "./productListing";
 import ActionBar from "./action-bar";
+import Skeleton from "./skeletons/skeleton";
+
+// const {education: {degree} = {}} = user;
 
 const PageProductDetail = ({
   products,
-  product,
-  product: { relatedProducts, name, id, price, description },
+  product = {},
+  product: { relatedProducts = [], name, id, price = {}, description } = {},
   appCurrency,
   exchangeRates
 }) => {
@@ -29,6 +32,14 @@ const PageProductDetail = ({
           appCurrency={appCurrency}
           exchangeRates={exchangeRates}
         />
+      </div>
+    );
+  }
+
+  if (product.id === undefined) {
+    return (
+      <div className="product-detail">
+        <Skeleton />
       </div>
     );
   }

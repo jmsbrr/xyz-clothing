@@ -23,6 +23,9 @@ class PriceBadge extends Component {
   updatePrice() {
     const { amount: productPrice, base: baseCurrency } = this.props.price;
 
+    // Some of the data hasn't been loaded yet.
+    if (this.props.appCurrency === null || productPrice === undefined) return;
+
     if (baseCurrency === this.props.appCurrency) {
       this.setPrice(productPrice);
     } else {
@@ -39,6 +42,8 @@ class PriceBadge extends Component {
 
   convertPrice(productPrice, baseCurrency) {
     const exchangeRates = this.props.exchangeRates;
+
+    // if (exchangeRates.length === 0) return;
 
     const rateTable = exchangeRates.filter(
       item => item.base === baseCurrency
@@ -57,9 +62,13 @@ class PriceBadge extends Component {
   }
 
   render() {
-    const className = this.props.className;
+    // if (this.state.formattedPrice === undefined) {
+    //   return null;
+    // }
 
-    return <div className={className}>{this.state.formattedPrice}</div>;
+    return (
+      <div className={this.props.className}>{this.state.formattedPrice}</div>
+    );
   }
 }
 
