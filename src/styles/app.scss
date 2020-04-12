@@ -1,20 +1,9 @@
-@import "./general/globals";
+@import "./utilities/globals";
+@import "./utilities/mixin-bp";
+
 @import "./general/normalize";
-@import "./general/mixin-bp";
 @import "./general/shared";
 @import "./general/html";
 @import "./general/layout";
 @import "./general/headings";
 @import "./general/btn";
-@import "./components/sidebar";
-@import "./components/logo";
-@import "./components/primary-nav";
-@import "./components/product-listing";
-@import "./components/product-card";
-@import "./components/currency-selector";
-@import "./components/product-detail";
-@import "./components/action-bar";
-@import "./components/form";
-@import "./components/checkbox-table";
-@import "./components/pagination";
-@import "./components/skeleton";

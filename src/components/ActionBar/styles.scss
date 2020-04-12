@@ -1,0 +1,39 @@
+@import "../../styles/utilities";
+
+.action-bar {
+  background-color: #2f3841;
+  height: 72px;
+  left: 280px;
+  font-size: 1rem;
+  padding: 16px 24px 16px 40px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  min-width: calc(768px - 280px);
+
+  @include bp-large {
+    left: 320px;
+    padding: 16px 24px 16px 80px;
+  }
+}
+
+.action-bar__inner {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  max-width: calc(960px - 80px);
+}
+
+.action-bar__view-all {
+  color: #fff;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+.action-bar__btn {
+  margin-left: 16px;
+}

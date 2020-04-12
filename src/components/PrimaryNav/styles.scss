@@ -1,0 +1,13 @@
+@import "../../styles/utilities";
+
+.primary-nav__link {
+  display: block;
+  color: #fff;
+  font-size: 1.375rem;
+  margin-bottom: 16px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
