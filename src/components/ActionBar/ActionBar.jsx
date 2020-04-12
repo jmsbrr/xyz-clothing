@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Button from "../Button";
 import "./styles.scss";
 
 const ActionBar = props => {
@@ -27,28 +28,29 @@ const getLinks = ({ mode, formError, product: { id = "" } }) => {
   if (mode === "edit") {
     links = (
       <React.Fragment>
-        <input
-          disabled={formError}
-          className="btn btn--accent action-bar__btn form__submit"
-          type="submit"
-          form="product-edit"
-          value="Save"
+        <Button
+          label="Save"
+          modifier="button--accent action-bar__btn"
+          config={{ type: "submit", form: "product-edit" }}
         />
-        <Link
-          className="btn btn--ghost-white action-bar__btn"
-          to={getCancelLink(id)}
-        >
-          Cancel
+
+        <Link to={getCancelLink(id)}>
+          <Button
+            label="Cancel"
+            modifier="button--ghost-white action-bar__btn"
+            element="div"
+          />
         </Link>
       </React.Fragment>
     );
   } else {
     links = (
-      <Link
-        className="btn btn--ghost-white action-bar__btn"
-        to={`/products/${id}/edit`}
-      >
-        Edit
+      <Link to={`/products/${id}/edit`}>
+        <Button
+          label="Edit"
+          modifier="button--ghost-white action-bar__btn"
+          element="span"
+        />
       </Link>
     );
   }

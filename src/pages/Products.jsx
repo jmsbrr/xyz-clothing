@@ -3,6 +3,7 @@ import ProductListing from "../components/ProductListing";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import { paginate } from "../utils/paginate";
+import Button from "../components/Button";
 
 class PageProducts extends Component {
   state = {
@@ -42,8 +43,8 @@ class PageProducts extends Component {
           }}
         >
           <h1>Products</h1>
-          <Link to="/products/add" className="btn btn--accent">
-            New Product
+          <Link to="/products/add">
+            <Button label="New Product" element="div" />
           </Link>
         </div>
 

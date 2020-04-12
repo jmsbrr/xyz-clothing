@@ -1,21 +1,23 @@
 import React from "react";
 import _ from "lodash";
+import Button from "../Button";
 import "./styles.scss";
 
-function renderPage(page, currentPage, onPageChange) {
-  const currentClass = page === currentPage ? "btn--primary" : "btn--ghost";
+const getClasses = isCurrent => {
+  return (isCurrent ? "button--primary" : "button--ghost") + " pagination__btn";
+};
 
+const renderPageButton = (page, currentPage, onPageChange) => {
   return (
     <li key={page} className="pagination__page">
-      <button
-        className={`pagination__btn btn ${currentClass}`}
-        onClick={() => onPageChange(page)}
-      >
-        {page}
-      </button>
+      <Button
+        label={page}
+        modifier={getClasses(page === currentPage)}
+        config={{ onClick: () => onPageChange(page) }}
+      />
     </li>
   );
-}
+};
 
 const Pagination = ({ itemCount, currentPage, pageSize, onPageChange }) => {
   const pageCount = Math.ceil(itemCount / pageSize);
@@ -23,7 +25,7 @@ const Pagination = ({ itemCount, currentPage, pageSize, onPageChange }) => {
 
   return (
     <ul className="pagination">
-      {pages.map(page => renderPage(page, currentPage, onPageChange))}
+      {pages.map(page => renderPageButton(page, currentPage, onPageChange))}
     </ul>
   );
 };

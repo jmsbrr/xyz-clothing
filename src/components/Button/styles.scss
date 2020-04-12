@@ -1,4 +1,6 @@
-.btn {
+@import "../../styles/utilities";
+
+.button {
   appearance: none;
   background: transparent;
   border: 1px solid transparent;
@@ -19,9 +21,14 @@
   &:focus {
     text-decoration: none;
   }
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 }
 
-.btn--primary {
+.button--primary {
   background: $color-primary;
   color: #fff;
 
@@ -31,7 +38,7 @@
   }
 }
 
-.btn--accent {
+.button--accent {
   background: $color-accent;
   color: $color-primary;
 
@@ -43,7 +50,7 @@
 
 $darkerPrimary: darken($color-primary, 10%);
 
-.btn--ghost {
+.button--ghost {
   border-color: $color-primary;
   color: $color-primary;
 
@@ -53,7 +60,7 @@ $darkerPrimary: darken($color-primary, 10%);
   }
 }
 
-.btn--ghost-white {
+.button--ghost-white {
   background: transparent;
   border-color: #fff;
   color: #fff;

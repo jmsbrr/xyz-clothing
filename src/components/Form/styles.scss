@@ -44,10 +44,3 @@
   font-size: 0.875rem;
   margin-top: 2px;
 }
-
-.form__submit {
-  &[disabled] {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-}
